@@ -29,19 +29,6 @@ understanding of the banking system.
 
 #### *User Stories*:
 - As a user, I want to be able to create my account
-- As a user, I want to be able to choose between saving and/or checking account
-- As a user, I want to be able to get an interest rate for my saving account
-- As a user, I want to be able to set a password
-- As a user, I want to be able to log in and out of my account
 - As a user, I want to be able to deposit money into my account
 - As a user, I want to be able to withdraw money from my account
-- As a user, I want to be able to view the balance of my account
-- As a user, I want to be able to transfer money from my account to another account
-- As a user, I want to be able to make a list of accounts that I have had a transaction with
-- As a user, I want to be able to deposit money transferred from another account
-- As a user, I want to be able to set a saving goal and create a plan & report for the goal
-
-#### *User Stories (x and y)*:
-- As a user, I want to be able to record my checking account transaction history on my account
-- As a user, I want to be able to record my saving account transaction history on my account and saving goal plan
-- As a user, I want to be able to add an account that I have a transaction with to my transaction listAs a user, I want to be able to record my transaction history on my account
+- As a user, I want to be able to record my transaction history on my account
