@@ -23,8 +23,8 @@ public class AccountList {
     // EFFECTS: return the account with the given username and password
     public Account getAccount(String username, int password) {
 
-        for(Account a: accounts) {
-            if(a.getName().equals(username) && a.getPassword() == password) {
+        for (Account a: accounts) {
+            if (a.getName().equals(username) && a.getPassword() == password) {
                 return a;
             }
         }

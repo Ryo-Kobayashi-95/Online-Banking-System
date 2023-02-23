@@ -29,7 +29,7 @@ public class Account {
         return this.username;
     }
 
-    public int  getPassword() {
+    public int getPassword() {
         return this.password;
     }
 
@@ -57,7 +57,7 @@ public class Account {
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
-        if(accountType.equals("cheq")) {
+        if (accountType.equals("cheq")) {
             this.chequingBalance += amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
                     "Deposit", amount));
@@ -72,7 +72,7 @@ public class Account {
     // MODIFIES: this
     // EFFECTS: subtract amount from this chequing balance or saving balance
     public void withdraw(String accountType, double amount) {
-        if(accountType.equals("cheq")) {
+        if (accountType.equals("cheq")) {
             this.chequingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
                     "Withdraw", amount));
