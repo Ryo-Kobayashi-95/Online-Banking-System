@@ -46,6 +46,11 @@ public class AccountLIstTest {
         assertEquals(a1, accounts.getAccount("James", 1234));
         assertEquals(a2, accounts.getAccount("Justin", 5678));
         assertEquals(a3, accounts.getAccount("Julia", 9876));
+
+        assertEquals(null, accounts.getAccount("Julia", 2525));
+        assertEquals(null, accounts.getAccount("fkf", 1234));
+        assertEquals(null, accounts.getAccount("Justin", 1235));
+        assertEquals(null, accounts.getAccount("Justi", 1234));
     }
 
     @Test

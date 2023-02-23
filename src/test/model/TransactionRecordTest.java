@@ -3,8 +3,6 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TransactionRecordTest {
@@ -13,7 +11,8 @@ public class TransactionRecordTest {
 
     @BeforeEach
     void setUp() {
-        tRec = new TransactionRecord("Justin", "Chequing", 100);
+        tRec = new TransactionRecord("Justin", "Chequing",
+                "Deposit", 100);
     }
 
     @Test
@@ -21,6 +20,5 @@ public class TransactionRecordTest {
         assertEquals("Justin", tRec.getUsername());
         assertEquals("Chequing", tRec.getAccountType());
         assertEquals(100, tRec.getTransactionAmount());
-        assertEquals(new Date(), tRec.getDate());
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Represents an account having a username, password, chequing & saving balance and transaction history.
@@ -9,7 +10,7 @@ public class Account {
     private int password;
     private double chequingBalance;
     private double savingBalance;
-    private List<TransactionRecord> transactionHistory;
+    private final List<TransactionRecord> transactionHistory;
 
     // REQUIRES: username must be at least one character long AND
     //           password must be 4 digits AND
@@ -17,47 +18,69 @@ public class Account {
     // EFFECTS: create an account with username, password,
     //          zero initial balance for chequing & saving, and empty transactionHistory
     public Account(String username, int password) {
-
+        this.username = username;
+        this.password = password;
+        this.chequingBalance = 0;
+        this.savingBalance = 0;
+        this.transactionHistory = new ArrayList<>();
     }
 
     public String getName() {
-        return null;
+        return this.username;
     }
 
     public int  getPassword() {
-        return 0;
+        return this.password;
     }
 
-    public void setUsername() {
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setPassword() {
+    public void setPassword(int password) {
+        this.password = password;
     }
 
     public double getChequingBalance() {
-        return 0;
+        return this.chequingBalance;
     }
 
     public double getSavingBalance() {
-        return 0;
+        return this.savingBalance;
     }
 
     public List<TransactionRecord> getTransactionHistory() {
-        return null;
+        return this.transactionHistory;
     }
 
     // REQUIRES: amount > 0
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
-
+        if(accountType.equals("cheq")) {
+            this.chequingBalance += amount;
+            this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
+                    "Deposit", amount));
+        } else {
+            this.savingBalance += amount;
+            this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
+                    "Deposit", amount));
+        }
     }
 
     // REQUIRES: amount > 0 and amount <= getBalance()
     // MODIFIES: this
     // EFFECTS: subtract amount from this chequing balance or saving balance
     public void withdraw(String accountType, double amount) {
-
+        if(accountType.equals("cheq")) {
+            this.chequingBalance -= amount;
+            this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
+                    "Withdraw", amount));
+        } else {
+            this.savingBalance -= amount;
+            this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
+                    "Withdraw",amount));
+        }
     }
 
 }
