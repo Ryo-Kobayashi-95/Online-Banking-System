@@ -16,7 +16,7 @@ public class Account {
     //           username and password must be unique, meaning no duplicates in the ListOfAccounts
     // EFFECTS: create an account with username, password,
     //          zero initial balance for chequing & saving, and empty transactionHistory
-    public Account() {
+    public Account(String username, int password) {
 
     }
 
