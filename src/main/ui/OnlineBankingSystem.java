@@ -15,7 +15,7 @@ public class OnlineBankingSystem {
 
     // EFFECTS: run the online banking system
     public OnlineBankingSystem() {
-        System.out.println("\nWelcome!");
+        System.out.println("\nWelcome to Bank of UBC!");
         runSystem();
     }
 
@@ -45,7 +45,7 @@ public class OnlineBankingSystem {
 
             if (request.equals("q")) {
                 keepGoing = false;
-                System.out.println("\nThank you for using our bank! See you soon...");
+                System.out.println("\nThank you for using Bank of UBC! See you soon...");
             } else {
                 performMainRequest(request);
             }
@@ -160,7 +160,7 @@ public class OnlineBankingSystem {
         System.out.println("- Please enter 'vc' to view the balance in your chequing account");
         System.out.println("- Please enter 'vs' to view the balance in your saving account");
         System.out.println("- Please enter 'h' to view your transaction history");
-        System.out.println("- Please enter 'b' to go back to the main");
+        System.out.println("- Please enter 'b' to go back to the main menu");
     }
 
     public void performAccountRequest(String request, Account account) {

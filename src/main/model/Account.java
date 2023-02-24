@@ -53,7 +53,7 @@ public class Account {
         return this.transactionHistory;
     }
 
-    // REQUIRES: amount > 0
+    // REQUIRES: amount >= 0
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
@@ -68,7 +68,7 @@ public class Account {
         }
     }
 
-    // REQUIRES: amount > 0 and amount <= getBalance()
+    // REQUIRES: amount >= 0 and amount <= getBalance()
     // MODIFIES: this
     // EFFECTS: subtract amount from this chequing balance or saving balance
     public void withdraw(String accountType, double amount) {
