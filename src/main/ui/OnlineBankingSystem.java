@@ -22,41 +22,27 @@ public class OnlineBankingSystem {
     // MODIFIES: this
     // EFFECTS: process
     public void runSystem() {
-        boolean keepGoing = true;
-        String request;
-
         init();
-
-        while (keepGoing) {
-            renderMainOptions();
-            request = input.next();
-            request = request.toLowerCase();
-
-            if (request.equals("q")) {
-                keepGoing = false;
-            } else {
-                performMainRequest(request);
-            }
-        }
-        System.out.println("Thank you for using our bank! See you soon...");
+        processMainRequest();
     }
 
     // EFFECTS: render the user options
     public void renderMainOptions() {
+        System.out.println("\nYou are at the main menu");
         System.out.println("\nPlease see the following options:");
-        System.out.println("\tPlease type 'a' to create a new account");
-        System.out.println("\tPlease type 'l' to log-in to your account");
-        System.out.println("\tPlease type 'q' to quit");
+        System.out.println("- Please type 'a' to create a new account");
+        System.out.println("- Please type 'l' to log-in to your account");
+        System.out.println("- Please type 'q' to quit");
     }
 
     public void renderAccountOptions() {
-        System.out.println("Please see the following options:");
-        System.out.println("Please enter 'd' to deposit money into your account");
-        System.out.println("Please enter 'w' to withdraw money from your account");
-        System.out.println("Please enter 'vc' to view the balance in your chequing account");
-        System.out.println("Please enter 'vs' to view the balance in your saving account");
-        System.out.println("Please enter 'h' to view your transaction history");
-        System.out.println("Please enter 'b' to go back to the main");
+        System.out.println("\nPlease see the following options:");
+        System.out.println("- Please enter 'd' to deposit money into your account");
+        System.out.println("- Please enter 'w' to withdraw money from your account");
+        System.out.println("- Please enter 'vc' to view the balance in your chequing account");
+        System.out.println("- Please enter 'vs' to view the balance in your saving account");
+        System.out.println("- Please enter 'h' to view your transaction history");
+        System.out.println("- Please enter 'b' to go back to the main");
     }
 
     public void performMainRequest(String request) {
@@ -65,22 +51,36 @@ public class OnlineBankingSystem {
         } else if (request.equals("l")) {
             loginToAccount();
         } else {
-            System.out.println("Invalid selection, please select again");
-            runSystem();
+            System.out.println("\nInvalid request, please try again");
+//            processMainRequest();
         }
     }
 
     public void performAccountRequest(String request, Account account) {
-        if (request.equals("d")) {
-            depositMoney(account);
-        } else if (request.equals("w")) {
-            withdrawMoney(account);
-        } else if (request.equals("vc")) {
-            displayChequingBalance(account);
-        } else if (request.equals("vs")) {
-            displaySavingBalance(account);
-        } else if (request.equals("h")) {
-            displayTransactionHistory(account);
+        boolean keepGoing = true;
+
+        while (keepGoing) {
+            if (request.equals("d")) {
+                keepGoing = false;
+                depositMoney(account);
+            } else if (request.equals("w")) {
+                keepGoing = false;
+                withdrawMoney(account);
+            } else if (request.equals("vc")) {
+                keepGoing = false;
+                displayChequingBalance(account);
+            } else if (request.equals("vs")) {
+                keepGoing = false;
+                displaySavingBalance(account);
+            } else if (request.equals("h")) {
+                keepGoing = false;
+                displayTransactionHistory(account);
+            } else if (request.equals("b")) {
+                keepGoing = false;
+//                processMainRequest();
+            } else {
+                System.out.println("\nInvalid request, please try again");
+            }
         }
     }
 
@@ -109,24 +109,33 @@ public class OnlineBankingSystem {
             passStr = Integer.toString(pass);
             size = passStr.length();
         }
-        list.addAccount(new Account(name, pass));
+
+        Account account = new Account(name, pass);
+        list.addAccount(account);
 
         System.out.println("\nYou are all set!");
-        System.out.println("\nPlease type 'k' to keep making changes to your account");
-        // !!! maybe direct to the transaction options instead of login option
-        System.out.println("Please enter 'b' to go back to the main");
-        String request = input.next();
-        if (request.equals("k")) {
-            loginToAccount();
-        } // !!!
+
+        boolean keepGoing = true;
+        while (keepGoing) {
+            System.out.println("\nPlease type 'k' to keep making changes to your account");
+            System.out.println("Please enter 'b' to go back to the main");
+            String request = input.next();
+
+            if (request.equals("k")) {
+                keepGoing = false;
+                processAccountRequest(account);
+            } else if (request.equals("b")) {
+                keepGoing = false;
+//                processMainRequest();
+            } else {
+                System.out.println("\nInvalid request, please try again");
+            }
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: login the existing account
     public void loginToAccount() {
-        boolean keepGoing = true;
-        String request;
-
         System.out.println("\nPlease enter your username and password to log in to your account");
         System.out.println("\tUsername:");
         String name = input.next();
@@ -136,9 +145,49 @@ public class OnlineBankingSystem {
         Account account = list.getAccount(name, pass);
 
         if (account == null) {
-            System.out.println("There is no account with the given username and/or password. Please enter again.");
-            loginToAccount();
+            System.out.println("There is no account with the given username and/or password");
+            System.out.println("Please type 't' to try again, or 'b' to go back to the main menu");
+            String request = input.next();
+
+            boolean keepGoing = true;
+            while (keepGoing) {
+                if (request.equals("t")) {
+                    keepGoing = false;
+                    loginToAccount();
+                } else if (request.equals("b")) {
+                    keepGoing = false;
+//                    processMainRequest();
+                } else {
+                    System.out.println("\nInvalid request, please try again");
+                }
+            }
         }
+        else {
+            processAccountRequest(account);
+        }
+    }
+
+    public void processMainRequest() {
+        boolean keepGoing = true;
+        String request;
+
+        while (keepGoing) {
+            renderMainOptions();
+            request = input.next();
+            request = request.toLowerCase();
+
+            if (request.equals("q")) {
+                keepGoing = false;
+                System.out.println("\nThank you for using our bank! See you soon...");
+            } else {
+                performMainRequest(request);
+            }
+        }
+    }
+
+    public void processAccountRequest(Account account) {
+        boolean keepGoing = true;
+        String request;
 
         while (keepGoing) {
             renderAccountOptions();
@@ -147,11 +196,13 @@ public class OnlineBankingSystem {
 
             if (request.equals("b")) {
                 keepGoing = false;
+//                processMainRequest();
             } else if (request.equals("d") || request.equals("w") || request.equals("vc")
                     || request.equals("vs") || request.equals("h")) {
+                keepGoing = false;
                 performAccountRequest(request, account);
             } else {
-                System.out.println("Invalid selection, please select again");
+                System.out.println("\nInvalid request, please try again");
             }
         }
     }
@@ -160,8 +211,8 @@ public class OnlineBankingSystem {
     // EFFECTS: perform a deposit transaction
     public void depositMoney(Account account) {
         System.out.println("\nPlease choose the account:");
-        System.out.println("Please enter 'c' for chequing account");
-        System.out.println("Please enter 's' for saving account");
+        System.out.println("- Please enter 'c' for chequing account");
+        System.out.println("- Please enter 's' for saving account");
 
         String accountType = input.next();
         if (accountType.equals("c")) {
@@ -173,18 +224,28 @@ public class OnlineBankingSystem {
             double amount = input.nextInt();
             account.deposit("sav", amount);
         } else {
-            System.out.println("Invalid selection, please select again");
+            System.out.println("\nInvalid request, please try again");
             depositMoney(account);
         }
 
-        System.out.println("\nThe transaction has been successfully done!");
-        System.out.println("\nPlease type 'k' to keep making changes to your account");
-        System.out.println("Please enter 'b' to go back to the main");
-        String request = input.next();
-        if (request.equals("k")) {
-            loginToAccount();
-            // maybe direct to the transaction options instead of login option
-        } // !!!
+        System.out.println("\nThe transaction has been done successfully!");
+
+        boolean keepGoing = true;
+        while (keepGoing) {
+            System.out.println("\nPlease type 'k' to keep making changes to your account");
+            System.out.println("Please enter 'b' to go back to the main");
+            String request = input.next();
+
+            if (request.equals("k")) {
+                keepGoing = false;
+                processAccountRequest(account);
+            } else if (request.equals("b")) {
+                keepGoing = false;
+//                processMainRequest();
+            } else {
+                System.out.println("\nInvalid request, please try again");
+            }
+        }
     }
 
     // MODIFIES: this
@@ -196,16 +257,25 @@ public class OnlineBankingSystem {
         double amount = input.nextInt();
         account.withdraw("cheq", amount);
 
-        System.out.println("\nThe transaction has been successfully done!");
-        System.out.println("\nPlease type 'k' to keep making changes to your account");
-        System.out.println("Please enter 'b' to go back to the main");
-        String request = input.next();
-        if (request.equals("k")) {
-            loginToAccount();
-            // maybe direct to the transaction options instead of login option
-        } // !!!
-    }
+        System.out.println("\nThe transaction has been done successfully!");
 
+        boolean keepGoing = true;
+        while (keepGoing) {
+            System.out.println("\nPlease type 'k' to keep making changes to your account");
+            System.out.println("Please enter 'b' to go back to the main");
+            String request = input.next();
+
+            if (request.equals("k")) {
+                keepGoing = false;
+                processAccountRequest(account);
+            } else if (request.equals("b")) {
+                keepGoing = false;
+//                processMainRequest();
+            } else {
+                System.out.println("\nInvalid request, please try again");
+            }
+        }
+    }
 
     // EFFECTS: display the balance in the chequing account
     public void displayChequingBalance(Account account) {
@@ -231,8 +301,22 @@ public class OnlineBankingSystem {
         }
     }
 
-    public void invalidSelectionHandler() {
-        // stab
-    }
+//    public void invalidSelectionHandler(String method, account) {
+//        if (method.equals("runSystem")) {
+//            runSystem();
+//        } else if (method.equals("performMainRequest")) {
+//            performMainRequest();
+//        } else if (method.equals("performAccountRequest")) {
+//            performAccountRequest();
+//        } else if (method.equals("createAccount")) {
+//            createAccount();
+//        } else if (method.equals("loginToAccount")) {
+//            loginToAccount();
+//        } else if (method.equals("depositMoney")) {
+//            depositMoney();
+//        } else if (method.equals("withdrawMoney")) {
+//            withdrawMoney();
+//        }
+//    }
 
 }
