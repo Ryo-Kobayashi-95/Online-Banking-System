@@ -2,14 +2,14 @@ package ui;
 
 import model.Account;
 import model.AccountList;
+import model.TransactionRecord;
 
+import java.util.List;
 import java.util.Scanner;
 
 // Online banking system
 public class OnlineBankingSystem {
 
-    private Account chequing;
-    private Account saving;
     private Scanner input;
     private AccountList list;
 
@@ -113,11 +113,12 @@ public class OnlineBankingSystem {
 
         System.out.println("\nYou are all set!");
         System.out.println("\nPlease type 'k' to keep making changes to your account");
+        // !!! maybe direct to the transaction options instead of login option
         System.out.println("Please enter 'b' to go back to the main");
         String request = input.next();
         if (request.equals("k")) {
             loginToAccount();
-        }
+        } // !!!
     }
 
     // MODIFIES: this
@@ -158,33 +159,80 @@ public class OnlineBankingSystem {
     // MODIFIES: this
     // EFFECTS: perform a deposit transaction
     public void depositMoney(Account account) {
+        System.out.println("\nPlease choose the account:");
+        System.out.println("Please enter 'c' for chequing account");
+        System.out.println("Please enter 's' for saving account");
 
+        String accountType = input.next();
+        if (accountType.equals("c")) {
+            System.out.println("Please enter the amount");
+            double amount = input.nextInt();
+            account.deposit("cheq", amount);
+        } else if (accountType.equals("s")) {
+            System.out.println("Please enter the amount");
+            double amount = input.nextInt();
+            account.deposit("sav", amount);
+        } else {
+            System.out.println("Invalid selection, please select again");
+            depositMoney(account);
+        }
+
+        System.out.println("\nThe transaction has been successfully done!");
+        System.out.println("\nPlease type 'k' to keep making changes to your account");
+        System.out.println("Please enter 'b' to go back to the main");
+        String request = input.next();
+        if (request.equals("k")) {
+            loginToAccount();
+            // maybe direct to the transaction options instead of login option
+        } // !!!
     }
 
     // MODIFIES: this
     // EFFECTS: perform a withdrawal transaction
     public void withdrawMoney(Account account) {
+        System.out.println("\nNote: you can only withdraw money from your chequing account at this time");
+        System.out.println("Please enter the amount");
 
+        double amount = input.nextInt();
+        account.withdraw("cheq", amount);
+
+        System.out.println("\nThe transaction has been successfully done!");
+        System.out.println("\nPlease type 'k' to keep making changes to your account");
+        System.out.println("Please enter 'b' to go back to the main");
+        String request = input.next();
+        if (request.equals("k")) {
+            loginToAccount();
+            // maybe direct to the transaction options instead of login option
+        } // !!!
     }
 
-    // EFFECTS: let the user choose the account type for the transaction
-    public void selectAccountType() {
-
-    }
 
     // EFFECTS: display the balance in the chequing account
     public void displayChequingBalance(Account account) {
-
+        double balance = account.getChequingBalance();
+        System.out.println("\nBalance in your chequing account: $" + balance + "\n");
     }
 
     // EFFECTS: display the balance in the saving account
     public void displaySavingBalance(Account account) {
-
+        double balance = account.getSavingBalance();
+        System.out.println("\nBalance in your chequing account: $" + balance + "\n");
     }
 
     // EFFECTS: display the transaction history of this account
     public void displayTransactionHistory(Account account) {
+        List<TransactionRecord> records = account.getTransactionHistory();
+        for (TransactionRecord tr: records) {
+            System.out.println("\n" + "Transaction date: " + tr.getDate());
+            System.out.println("Username: " + tr.getUsername());
+            System.out.println("Account type: " + tr.getAccountType());
+            System.out.println("Transaction Type: " + tr.getTransactionType());
+            System.out.println("Amount: " + tr.getTransactionAmount() + "\n");
+        }
+    }
 
+    public void invalidSelectionHandler() {
+        // stab
     }
 
 }

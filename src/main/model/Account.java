@@ -73,13 +73,14 @@ public class Account {
     // EFFECTS: subtract amount from this chequing balance or saving balance
     public void withdraw(String accountType, double amount) {
         if (accountType.equals("cheq")) {
+            // handle the insufficient fund
             this.chequingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
-                    "Withdraw", amount));
+                    "Withdraw", -amount));
         } else {
             this.savingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
-                    "Withdraw",amount));
+                    "Withdraw", -amount));
         }
     }
 
