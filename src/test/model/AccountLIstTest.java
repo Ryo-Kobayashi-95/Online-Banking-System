@@ -62,4 +62,16 @@ public class AccountLIstTest {
         accounts.addAccount(a3);
         assertEquals(3, accounts.length());
     }
+
+    @Test
+    void testSetUsername() {
+        a1.setUsername("Ryo");
+        assertEquals("Ryo", a1.getName());
+    }
+
+    @Test
+    void testSetPassword() {
+        a1.setPassword(4321);
+        assertEquals(4321, a1.getPassword());
+    }
 }
