@@ -8,6 +8,7 @@ public class TransactionRecord {
 
     private final String username;
     private final String accountType;
+    private final String transactionType;
     private final Date date;
     private final double transactionAmount;
 
@@ -15,6 +16,7 @@ public class TransactionRecord {
     public TransactionRecord(String username, String accountType, String transactionType, double transactionAmount) {
         this.username = username;
         this.accountType = accountType;
+        this.transactionType = transactionType;
         this.date = new Date();
         this.transactionAmount = transactionAmount;
     }
@@ -25,6 +27,10 @@ public class TransactionRecord {
 
     public String getAccountType() {
         return this.accountType;
+    }
+
+    public String getTransactionType() {
+        return this.transactionType;
     }
 
     public double getTransactionAmount() {

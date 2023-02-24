@@ -19,6 +19,7 @@ public class TransactionRecordTest {
     void testTransactionRecord() {
         assertEquals("Justin", tRec.getUsername());
         assertEquals("Chequing", tRec.getAccountType());
+        assertEquals("Deposit", tRec.getTransactionType());
         assertEquals(100, tRec.getTransactionAmount());
     }
 }
