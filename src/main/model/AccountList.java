@@ -31,7 +31,7 @@ public class AccountList {
         return null;
     }
 
-
+    // EFFECTS: return the length of the account list
     public int length() {
         return this.accounts.size();
     }

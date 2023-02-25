@@ -13,7 +13,6 @@ public class Account {
     private final List<TransactionRecord> transactionHistory;
 
     // REQUIRES: username must be at least one character long AND
-    //           password must be 4 digits AND
     //           username and password must be unique, meaning no duplicates in the ListOfAccounts
     // EFFECTS: create an account with username, password,
     //          zero initial balance for chequing & saving, and empty transactionHistory
@@ -53,11 +52,11 @@ public class Account {
         return this.transactionHistory;
     }
 
-    // REQUIRES: amount >= 0
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
-        if (accountType.equals("cheq")) {
+
+        if (accountType.equals("c")) {
             this.chequingBalance += amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
                     "Deposit", amount));
@@ -68,12 +67,10 @@ public class Account {
         }
     }
 
-    // REQUIRES: amount >= 0 and amount <= getBalance()
     // MODIFIES: this
     // EFFECTS: subtract amount from this chequing balance or saving balance
     public void withdraw(String accountType, double amount) {
         if (accountType.equals("cheq")) {
-            // handle the insufficient fund
             this.chequingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
                     "Withdraw", -amount));
