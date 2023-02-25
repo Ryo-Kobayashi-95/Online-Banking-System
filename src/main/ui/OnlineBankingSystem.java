@@ -254,7 +254,7 @@ public class OnlineBankingSystem {
                 System.out.println("\nInvalid amount. Please try again\n");
             }
         } while (amount < 0 || amount > account.getChequingBalance());
-        account.withdraw("cheq", amount);
+        account.withdraw("c", amount);
 
         System.out.println("\nThe transaction has been done successfully!");
 

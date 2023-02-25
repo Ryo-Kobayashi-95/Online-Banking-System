@@ -55,7 +55,6 @@ public class Account {
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
-
         if (accountType.equals("c")) {
             this.chequingBalance += amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
@@ -70,7 +69,7 @@ public class Account {
     // MODIFIES: this
     // EFFECTS: subtract amount from this chequing balance or saving balance
     public void withdraw(String accountType, double amount) {
-        if (accountType.equals("cheq")) {
+        if (accountType.equals("c")) {
             this.chequingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
                     "Withdraw", -amount));
