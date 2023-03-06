@@ -1,20 +1,31 @@
 package ui;
 
 import model.Account;
-import model.AccountList;
+import model.Bank;
 import model.TransactionRecord;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 // Online banking system
 public class OnlineBankingSystem {
 
+    private static final String JSON_STORE = "./data/bank.json";
     private Scanner input;
-    private AccountList list;
+    private Bank list;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: run the online banking system
     public OnlineBankingSystem() {
+
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
         System.out.println("\nWelcome to Bank of UBC!");
         runSystem();
     }
@@ -29,7 +40,7 @@ public class OnlineBankingSystem {
     // MODIFIES: this
     // EFFECTS: initialize a new account list
     public void init() {
-        this.list = new AccountList();
+        this.list = new Bank();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
     }
@@ -58,9 +69,11 @@ public class OnlineBankingSystem {
     public void renderMainOptions() {
         System.out.println("\nYou are at the main menu");
         System.out.println("\nPlease select and type a key from the following options:");
-        System.out.println("- 'a' to create a new account");
-        System.out.println("- 'l' to log-in to your account");
-        System.out.println("- 'q' to quit");
+        System.out.println("- 'a'    to create a new account");
+        System.out.println("- 'l'    to log-in to your account");
+        System.out.println("- 'save' to save account & transaction history to file");
+        System.out.println("- 'load' to load account & transaction history to file");
+        System.out.println("- 'q'    to quit");
     }
 
     // MODIFIES: this
@@ -70,6 +83,10 @@ public class OnlineBankingSystem {
             createAccount();
         } else if (request.equals("l")) {
             loginToAccount();
+        } else if (request.equals("save")) {
+            saveBank();
+        } else if (request.equals("load")) {
+            loadBank();
         } else {
             System.out.println("\nInvalid request, please try again");
         }
@@ -293,5 +310,28 @@ public class OnlineBankingSystem {
             }
         }
         processAccountRequest(account);
+    }
+
+    // EFFECTS: saves the workroom to file
+    private void saveBank() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(list);
+            jsonWriter.close();
+            System.out.println("Saved account to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadBank() {
+        try {
+            list = jsonReader.read();
+            System.out.println("Loaded account from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }

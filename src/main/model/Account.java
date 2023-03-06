@@ -1,16 +1,23 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
+// Citation:
+// Source: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
 // Represents an account having a username, password, chequing & saving balance and transaction history.
-public class Account {
+public class Account implements Writable {
 
     private String username;
     private int password;
     private double chequingBalance;
     private double savingBalance;
-    private final List<TransactionRecord> transactionHistory;
+    private List<TransactionRecord> transactionHistory;
 
     // REQUIRES: username must be at least one character long AND
     //           username and password must be unique, meaning no duplicates in the ListOfAccounts
@@ -52,6 +59,18 @@ public class Account {
         return this.transactionHistory;
     }
 
+    public void setChequingBalance(double amount) {
+        this.chequingBalance = amount;
+    }
+
+    public void setSavingBalance(double amount) {
+        this.savingBalance = amount;
+    }
+
+    public void setTransactionHistory(List<TransactionRecord> transactionHistory) {
+        this.transactionHistory = transactionHistory;
+    }
+
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
@@ -78,6 +97,17 @@ public class Account {
             this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
                     "Withdraw", -amount));
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("username", this.username);
+        json.put("password", this.password);
+        json.put("chequingBalance", this.chequingBalance);
+        json.put("savingBalance", this.savingBalance);
+        json.put("transactionHistory", this.transactionHistory);
+        return json;
     }
 
 }

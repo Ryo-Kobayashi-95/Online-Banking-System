@@ -1,16 +1,22 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
+// Citation:
+// Source: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
-// Represents a list of account in the system
-public class AccountList {
+// Represents bank with a list of all accounts in the system
+public class Bank implements Writable {
 
     private List<Account> accounts;
 
     // EFFECTS: create a list of account
-    public AccountList() {
+    public Bank() {
         this.accounts = new ArrayList<>();
     }
 
@@ -34,6 +40,23 @@ public class AccountList {
     // EFFECTS: return the length of the account list
     public int length() {
         return this.accounts.size();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json  = new JSONObject();
+        json.put("accounts", accountsToJson());
+        return json;
+    }
+
+    private JSONArray accountsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Account a : accounts) {
+            jsonArray.put(a.toJson());
+        }
+
+        return jsonArray;
     }
 
 }

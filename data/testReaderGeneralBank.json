@@ -1,0 +1,24 @@
+{
+  "accounts": [
+    {
+      "username": "Ryo",
+      "password": 1234,
+      "chequingBalance": 1000,
+      "savingBalance": 0,
+      "tUsername": "Ryo",
+      "accountType": "Chequing",
+      "transactionType": "Deposit",
+      "transactionAmount": 1000
+    },
+    {
+      "username": "Justin",
+      "password": 5678,
+      "chequingBalance": 0,
+      "savingBalance": 222,
+      "tUsername": "Justin",
+      "accountType": "Saving",
+      "transactionType": "Deposit",
+      "transactionAmount": 222
+    }
+  ]
+}

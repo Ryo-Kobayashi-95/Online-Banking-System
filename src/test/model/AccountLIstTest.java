@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountLIstTest {
 
-    private AccountList accounts;
+    private Bank accounts;
 
     private Account a1;
     private Account a2;
@@ -16,7 +16,7 @@ public class AccountLIstTest {
 
     @BeforeEach
     void setUp() {
-        this.accounts = new AccountList();
+        this.accounts = new Bank();
         this.a1 = new Account("James", 1234);
         this.a2 = new Account("Justin", 5678);
         this.a3 = new Account("Julia", 9876);
