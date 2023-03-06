@@ -3,7 +3,7 @@
     {
       "username": "Ryo",
       "password": 1234,
-      "chequingBalance": 1000,
+      "chequingBalance": 0,
       "savingBalance": 0,
       "tUsername": "Ryo",
       "accountType": "Chequing",
@@ -14,7 +14,7 @@
       "username": "Justin",
       "password": 5678,
       "chequingBalance": 0,
-      "savingBalance": 222,
+      "savingBalance": 0,
       "tUsername": "Justin",
       "accountType": "Saving",
       "transactionType": "Deposit",

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Date;
 import java.util.stream.Stream;
 
 import model.Account;
@@ -69,17 +69,41 @@ public class JsonReader {
 
         Account account = new Account(name, password);
 
-        bank.addAccount(account);
+        double chequingBalance = jsonObject.getDouble("chequingBalance");
+        double savingBalance = jsonObject.getDouble("savingBalance");
+
+        account.setChequingBalance(chequingBalance);
+        account.setSavingBalance(savingBalance);
 
         addTransactionHistory(account, jsonObject);
+
+        bank.addAccount(account);
     }
 
     // MODIFIES: account
-    // EFFECTS: parses transaction record from JSON object and adds it to account
+    // EFFECTS: parses accounts from JSON object and adds them to bank
     private void addTransactionHistory(Account account, JSONObject jsonObject) {
-        double chequingBalance = jsonObject.getDouble("chequingBalance");
-        double savingBalance = jsonObject.getDouble("savingBalance");
-//        account.deposit("c", chequingBalance);
-//        account.deposit("s", savingBalance);
+        JSONArray jsonArray = jsonObject.getJSONArray("transactionHistory");
+        for (Object json : jsonArray) {
+            JSONObject nextRecord = (JSONObject) json;
+            addRecord(account, nextRecord);
+        }
     }
+
+    // MODIFIES: account
+    // EFFECTS: parses account from JSON object and adds it to bank
+    private void addRecord(Account account, JSONObject jsonObject) {
+        String name = jsonObject.getString("username");
+        String accountType = jsonObject.getString("accountType");
+        String transactionType = jsonObject.getString("transactionType");
+        String date = jsonObject.getString("date");
+        double transactionAmount = jsonObject.getDouble("transactionAmount");
+
+//        JSONArray transactionHistory = jsonObject.getJSONArray("transactionHistory");
+
+        account.getTransactionHistory().add(new TransactionRecord(name, accountType,
+                transactionType, transactionAmount));
+
+    }
+
 }
