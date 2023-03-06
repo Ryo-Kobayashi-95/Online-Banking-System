@@ -32,6 +32,6 @@ understanding of the banking system.
 - As a user, I want to be able to deposit money into my account
 - As a user, I want to be able to withdraw money from my account
 - As a user, I want to be able to record my transaction history on my account
-- As a user, when I select the quit option from the main menu, I want to be reminded to save my transaction history to 
-  file and have the option to do so or not
-- As a user, when I start the application, I want to be given the option to reload my transaction history from file
+- As a user, I want to be able to save all accounts created (with username, password, and chequing & saving balance)
+and transaction history associated with each account to file
+- As a user, I want to be able to load the list of accounts and transaction history from file
