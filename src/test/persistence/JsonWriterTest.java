@@ -1,13 +1,11 @@
 package persistence;
 
-
 import model.Account;
 import model.Bank;
 import model.TransactionRecord;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,7 +72,6 @@ class JsonWriterTest extends JsonTest {
                     "Ryo", "Chequing", "Deposit", 1000, a1, t1);
             checkAccount("Justin", 5678, 0, 222,
                     "Justin", "Saving", "Deposit", 222, a2, t2);
-
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

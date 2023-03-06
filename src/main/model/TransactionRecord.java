@@ -40,28 +40,4 @@ public class TransactionRecord {
     public Date getDate() {
         return this.date;
     }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    public void setTransactionAmount(double amount) {
-
-        this.transactionAmount = amount;
-    }
-
-    public Date setDate() {
-        return this.date;
-    }
-
-
-
 }

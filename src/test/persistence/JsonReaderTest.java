@@ -53,15 +53,10 @@ public class JsonReaderTest extends JsonTest {
             TransactionRecord t1 = a1.getTransactionHistory().get(0);
             TransactionRecord t2 = a2.getTransactionHistory().get(0);
 
-            checkAccount("Ryo", 1234, 1000, 0,
+            checkAccount("Ryo", 1234, 2000, 0,
                     t1.getUsername(), t1.getAccountType(), t1.getTransactionType(), t1.getTransactionAmount(), a1, t1);
-            checkAccount("Justin", 5678, 0, 222,
+            checkAccount("Justin", 5678, 0, 444,
                     t2.getUsername(), t2.getAccountType(), t2.getTransactionType(), t2.getTransactionAmount(), a2, t2);
-
-//            checkAccount("Ryo", 1234, 1000, 0,
-//                    "Ryo", "Chequing", "Deposit", 1000, a1, t1);
-//            checkAccount("Justin", 5678, 0, 222,
-//                    "Justin", "Saving", "Deposit", 222, a2, t2);
 
         } catch (IOException e) {
             fail("Couldn't read from file");

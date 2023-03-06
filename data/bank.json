@@ -1,28 +1,28 @@
 {"accounts": [
     {
         "password": 1234,
-        "savingBalance": 1500,
+        "savingBalance": 1000,
         "chequingBalance": 500,
         "transactionHistory": [
             {
-                "date": "Sun Mar 05 19:06:36 PST 2023",
                 "transactionType": "Deposit",
+                "date": "Sun Mar 05 22:11:41 PST 2023",
                 "accountType": "Chequing",
                 "transactionAmount": 1000,
                 "username": "Ryo"
             },
             {
-                "date": "Sun Mar 05 19:06:36 PST 2023",
                 "transactionType": "Withdraw",
+                "date": "Sun Mar 05 22:11:41 PST 2023",
                 "accountType": "Chequing",
                 "transactionAmount": -500,
                 "username": "Ryo"
             },
             {
-                "date": "Sun Mar 05 19:06:36 PST 2023",
                 "transactionType": "Deposit",
+                "date": "Sun Mar 05 22:12:03 PST 2023",
                 "accountType": "Saving",
-                "transactionAmount": 1500,
+                "transactionAmount": 1000,
                 "username": "Ryo"
             }
         ],
@@ -30,51 +30,37 @@
     },
     {
         "password": 5678,
-        "savingBalance": 111,
-        "chequingBalance": 0,
+        "savingBalance": 1000,
+        "chequingBalance": 1111,
         "transactionHistory": [
             {
-                "date": "Sun Mar 05 19:06:36 PST 2023",
-                "transactionType": "Withdraw",
-                "accountType": "Chequing",
-                "transactionAmount": -0,
-                "username": "Mike"
-            },
-            {
-                "date": "Sun Mar 05 19:06:36 PST 2023",
                 "transactionType": "Deposit",
-                "accountType": "Chequing",
-                "transactionAmount": 1000,
-                "username": "Mike"
-            },
-            {
-                "date": "Sun Mar 05 19:06:36 PST 2023",
-                "transactionType": "Withdraw",
-                "accountType": "Chequing",
-                "transactionAmount": -1000,
-                "username": "Mike"
-            },
-            {
-                "date": "Sun Mar 05 19:06:36 PST 2023",
-                "transactionType": "Deposit",
+                "date": "Sun Mar 05 22:11:41 PST 2023",
                 "accountType": "Saving",
-                "transactionAmount": 111,
-                "username": "Mike"
+                "transactionAmount": 1000,
+                "username": "Justin"
+            },
+            {
+                "transactionType": "Deposit",
+                "date": "Sun Mar 05 22:12:19 PST 2023",
+                "accountType": "Chequing",
+                "transactionAmount": 1111,
+                "username": "Justin"
             }
         ],
-        "username": "Mike"
+        "username": "Justin"
     },
     {
-        "password": 2345,
+        "password": 1234,
         "savingBalance": 0,
-        "chequingBalance": 1000,
+        "chequingBalance": 9876,
         "transactionHistory": [{
-            "date": "Sun Mar 05 19:07:53 PST 2023",
             "transactionType": "Deposit",
+            "date": "Sun Mar 05 22:12:34 PST 2023",
             "accountType": "Chequing",
-            "transactionAmount": 1000,
-            "username": "Ryo"
+            "transactionAmount": 9876,
+            "username": "Mike"
         }],
-        "username": "Ryo"
+        "username": "Mike"
     }
 ]}

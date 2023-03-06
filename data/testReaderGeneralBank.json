@@ -1,24 +1,28 @@
-{
-  "accounts": [
-    {
-      "username": "Ryo",
-      "password": 1234,
-      "chequingBalance": 0,
-      "savingBalance": 0,
-      "tUsername": "Ryo",
+{"accounts": [
+  {
+    "password": 1234,
+    "savingBalance": 0,
+    "chequingBalance": 1000,
+    "transactionHistory": [{
+      "transactionType": "Deposit",
+      "date": "Sun Mar 05 21:28:10 PST 2023",
       "accountType": "Chequing",
+      "transactionAmount": 1000,
+      "username": "Ryo"
+    }],
+    "username": "Ryo"
+  },
+  {
+    "password": 5678,
+    "savingBalance": 222,
+    "chequingBalance": 0,
+    "transactionHistory": [{
       "transactionType": "Deposit",
-      "transactionAmount": 1000
-    },
-    {
-      "username": "Justin",
-      "password": 5678,
-      "chequingBalance": 0,
-      "savingBalance": 0,
-      "tUsername": "Justin",
+      "date": "Sun Mar 05 21:28:33 PST 2023",
       "accountType": "Saving",
-      "transactionType": "Deposit",
-      "transactionAmount": 222
-    }
-  ]
-}
+      "transactionAmount": 222,
+      "username": "Justin"
+    }],
+    "username": "Justin"
+  }
+]}

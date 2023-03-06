@@ -49,6 +49,7 @@ public class Bank implements Writable {
         return json;
     }
 
+    // EFFECTS: returns account list in this bank as a JSON array
     private JSONArray accountsToJson() {
         JSONArray jsonArray = new JSONArray();
 

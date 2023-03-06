@@ -69,11 +69,11 @@ public class OnlineBankingSystem {
     public void renderMainOptions() {
         System.out.println("\nYou are at the main menu");
         System.out.println("\nPlease select and type a key from the following options:");
-        System.out.println("- 'a'    to create a new account");
-        System.out.println("- 'l'    to log-in to your account");
-        System.out.println("- 'save' to save account & transaction history to file");
-        System.out.println("- 'load' to load account & transaction history to file");
-        System.out.println("- 'q'    to quit");
+        System.out.println("- 'a' to create a new account");
+        System.out.println("- 'l' to log-in to your account");
+        System.out.println("- '1' to save account & transaction history to file");
+        System.out.println("- '2' to load account & transaction history to file");
+        System.out.println("- 'q' to quit");
     }
 
     // MODIFIES: this
@@ -83,9 +83,9 @@ public class OnlineBankingSystem {
             createAccount();
         } else if (request.equals("l")) {
             loginToAccount();
-        } else if (request.equals("save")) {
+        } else if (request.equals("1")) {
             saveBank();
-        } else if (request.equals("load")) {
+        } else if (request.equals("2")) {
             loadBank();
         } else {
             System.out.println("\nInvalid request, please try again");

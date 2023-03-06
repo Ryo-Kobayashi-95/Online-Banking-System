@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.stream.Stream;
 
 import model.Account;
@@ -45,7 +44,6 @@ public class JsonReader {
 
     // EFFECTS: parses bank from JSON object and returns it
     private Bank parseBank(JSONObject jsonObject) {
-//        String name = jsonObject.getString("name");
         Bank bank = new Bank();
         addAccounts(bank, jsonObject);
         return bank;
@@ -96,10 +94,7 @@ public class JsonReader {
         String name = jsonObject.getString("username");
         String accountType = jsonObject.getString("accountType");
         String transactionType = jsonObject.getString("transactionType");
-        String date = jsonObject.getString("date");
         double transactionAmount = jsonObject.getDouble("transactionAmount");
-
-//        JSONArray transactionHistory = jsonObject.getJSONArray("transactionHistory");
 
         account.getTransactionHistory().add(new TransactionRecord(name, accountType,
                 transactionType, transactionAmount));

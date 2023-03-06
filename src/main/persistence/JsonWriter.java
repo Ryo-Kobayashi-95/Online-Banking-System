@@ -1,15 +1,14 @@
 package persistence;
 
-
-// Citation:
-// Source: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
-
 import model.Bank;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+
+// Citation:
+// Source: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
 // Represents a writer that writes JSON representation of bank to file
 public class JsonWriter {

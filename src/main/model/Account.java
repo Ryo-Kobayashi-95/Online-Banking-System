@@ -67,10 +67,6 @@ public class Account implements Writable {
         this.savingBalance = amount;
     }
 
-    public void setTransactionHistory(List<TransactionRecord> transactionHistory) {
-        this.transactionHistory = transactionHistory;
-    }
-
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
@@ -106,7 +102,20 @@ public class Account implements Writable {
         json.put("password", this.password);
         json.put("chequingBalance", this.chequingBalance);
         json.put("savingBalance", this.savingBalance);
-        json.put("transactionHistory", this.transactionHistory);
+
+        JSONArray jsonArray = new JSONArray();
+        for (TransactionRecord tr : transactionHistory) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("username", tr.getUsername());
+            jsonObject.put("accountType", tr.getAccountType());
+            jsonObject.put("transactionType", tr.getTransactionType());
+            jsonObject.put("transactionAmount", tr.getTransactionAmount());
+            jsonObject.put("date", tr.getDate());
+            jsonArray.put(jsonObject);
+        }
+
+        json.put("transactionHistory", jsonArray);
+
         return json;
     }
 
