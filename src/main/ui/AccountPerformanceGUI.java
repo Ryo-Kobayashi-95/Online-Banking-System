@@ -16,13 +16,15 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     private static JTextField depositField;
     private static JTextField withdrawField;
     private static JLabel userMessageLabel;
+    private JFrame previousFrame;
     private Account account;
 
-    public AccountPerformanceGUI(String name, Account account) {
+    public AccountPerformanceGUI(String name, Account account, JFrame previousFrame) {
 
-        super("Welcome back, " + name + "!" + " This is your account page");
+        super("Welcome back, " + name + "!");
 
         this.account = account;
+        this.previousFrame = previousFrame;
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(700, 400));
@@ -45,8 +47,12 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         vcBtn.addActionListener(this);
 
         JButton vsBtn = new JButton("Saving account");
-        vcBtn.setActionCommand("vs");
-        vcBtn.addActionListener(this);
+        vsBtn.setActionCommand("vs");
+        vsBtn.addActionListener(this);
+
+        JButton vtBtn = new JButton("View transaction history");
+        vtBtn.setActionCommand("vt");
+        vtBtn.addActionListener(this);
 
         JButton backButton = new JButton("Back to the main menu");
         backButton.setActionCommand("bb");
@@ -65,6 +71,9 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         add(viewBalanceLabel);
         add(vcBtn);
         add(vsBtn);
+
+        add(vtBtn);
+        add(backButton);
 
         userMessageLabel = new JLabel("");
         add(userMessageLabel);
@@ -90,7 +99,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         } else if (e.getActionCommand().equals("vt")) {
             displayTransactionHistory();
         } else if (e.getActionCommand().equals("bb")) {
-            dispose();
+            this.dispose();
+            previousFrame.setVisible(true);
         }
     }
 
@@ -99,7 +109,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     //          or ask to re-enter the amount if it is invalid (amount < 0)
     public void depositMoney(String accountType) {
 
-        int depositAmount;
+        double depositAmount;
         do {
             depositAmount = Integer.parseInt(depositField.getText());
             if (depositAmount < 0) {
@@ -108,14 +118,19 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         } while (depositAmount < 0);
 
         account.deposit(accountType, depositAmount);
-        userMessageLabel.setText("The transaction has been done successfully!");
+        if (accountType.equals("c")) {
+            userMessageLabel.setText("The money has been deposited into your chequing account successfully!");
+        } else {
+            userMessageLabel.setText("The money has been deposited into your saving account successfully!");
+        }
+
     }
 
     // MODIFIES: this
     // EFFECTS: perform a withdrawal transaction. Subtract the money from the chequing,
     //          or ask the user to re-enter the amount if amount < 0 or amount > account.getChequingBalance()
     public void withdrawMoney() {
-        int withdrawAmount;
+        double withdrawAmount;
 
 //        System.out.println("\nNote: you can only withdraw money from your chequing account at this time");
 
@@ -130,7 +145,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
         account.withdraw("c", withdrawAmount);
 
-        userMessageLabel.setText("The transaction has been done successfully!");
+        double balance = account.getChequingBalance();
+        userMessageLabel.setText("Balance in your chequing account: $" + balance);
     }
 
     // EFFECTS: display the balance in the chequing account
@@ -164,6 +180,11 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
                 add(accountType);
                 add(transactionType);
                 add(amount);
+
+                pack();
+                setLocationRelativeTo(null);
+                setVisible(true);
+                setResizable(false);
             }
         }
     }

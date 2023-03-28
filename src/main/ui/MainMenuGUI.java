@@ -56,6 +56,10 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         loadBtn.setActionCommand("load");
         loadBtn.addActionListener(this);
 
+        JButton quitBtn = new JButton("Quit");
+        quitBtn.setActionCommand("quit");
+        quitBtn.addActionListener(this);
+
         userNameLabel = new JLabel("Username");
         nameField = new JTextField(15);
         add(userNameLabel);
@@ -70,6 +74,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         add(loginBtn);
         add(saveBtn);
         add(loadBtn);
+        add(quitBtn);
 
         userMessageLabel = new JLabel("");
         add(userMessageLabel);
@@ -83,7 +88,12 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String name = nameField.getText();
-        int password = Integer.parseInt(passwordField.getText());
+
+        String pass = passwordField.getText();
+        int password = 0;
+        if (!pass.isEmpty()) {
+            password = Integer.parseInt(passwordField.getText());
+        }
 
         if (e.getActionCommand().equals("create")) {
             createAccount(name, password);
@@ -93,6 +103,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             saveBank();
         } else if (e.getActionCommand().equals("load")) {
             loadBank();
+        } else if (e.getActionCommand().equals("quit")) {
+            userMessageLabel.setText("Thank you for using Bank of UBC! See you soon...");
         }
     }
 
@@ -137,7 +149,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             noAccountHandler();
         } else {
             this.dispose();
-            AccountPerformanceGUI apGUI = new AccountPerformanceGUI(name, account);
+            AccountPerformanceGUI apGUI = new AccountPerformanceGUI(name, account, this);
             apGUI.setVisible(true);
         }
     }
