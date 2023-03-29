@@ -16,17 +16,16 @@ import java.io.IOException;
 // Represents the online banking system's main menu window frame
 public class MainMenuGUI extends JFrame implements ActionListener {
 
-    private static JLabel userNameLabel;
-    private static JLabel passwordLabel;
     private static JTextField nameField;
     private static JTextField passwordField;
     private static JLabel userMessageLabel;
 
     private static final String JSON_STORE = "./data/bank.json";
     private Bank list;
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private final JsonWriter jsonWriter;
+    private final JsonReader jsonReader;
 
+    // MODIFIES: this
     // EFFECTS: Constructor runs the online baking system and sets up all the fields,
     //          buttons and instructions for the main menu
     public MainMenuGUI() {
@@ -39,37 +38,15 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(700, 400));
-        ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
+        ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new FlowLayout());
 
-//      TODO: too long method. create new method to shorten
+        JButton createBtn = createButtons("Create", "create");
+        JButton loginBtn = createButtons("Login", "login");
+        JButton saveBtn = createButtons("Save", "save");
+        JButton loadBtn = createButtons("Load", "load");
 
-
-        JButton createBtn = new JButton("Create");
-        createBtn.setActionCommand("create");
-        createBtn.addActionListener(this);
-
-        JButton loginBtn = new JButton("Login");
-        loginBtn.setActionCommand("login");
-        loginBtn.addActionListener(this);
-
-        JButton saveBtn = new JButton("Save");
-        saveBtn.setActionCommand("save");
-        saveBtn.addActionListener(this);
-
-        JButton loadBtn = new JButton("Load");
-        loadBtn.setActionCommand("load");
-        loadBtn.addActionListener(this);
-
-        userNameLabel = new JLabel("Username");
-        nameField = new JTextField(15);
-        add(userNameLabel);
-        add(nameField);
-
-        passwordLabel = new JLabel("Password");
-        passwordField = new JTextField(15);
-        add(passwordLabel);
-        add(passwordField);
+        createFields();
 
         add(createBtn);
         add(loginBtn);
@@ -82,6 +59,30 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+    }
+
+    // REQUIRES: both buttonName and key must at least one character long
+    // MODIFIES: this
+    // EFFECTS: create buttons with the given name and key in the main menu
+    private JButton createButtons(String buttonName, String key) {
+        JButton button = new JButton(buttonName);
+        button.setActionCommand(key);
+        button.addActionListener(this);
+        return button;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: create and render fields in the main menu
+    private void createFields() {
+        JLabel userNameLabel = new JLabel("Username");
+        nameField = new JTextField(15);
+        add(userNameLabel);
+        add(nameField);
+
+        JLabel passwordLabel = new JLabel("Password");
+        passwordField = new JTextField(15);
+        add(passwordLabel);
+        add(passwordField);
     }
 
     // EFFECTS: when the JButton btn is clicked, the related method is performed;
@@ -140,8 +141,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         Account account = new Account(name, pass);
         list.addAccount(account);
 
-        userMessageLabel.setText("You are all set! " +
-                "\nPlease login to your account if you wish to perform transaction!");
+        userMessageLabel.setText("You are all set! "
+                + "\nPlease login to your account if you wish to perform transaction!");
     }
 
     // MODIFIES: this
@@ -160,6 +161,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: handle a situation where given username and/or password not found in the account list.
     //          ask to re-enter or go back to the main menu
     public void noAccountHandler() {
@@ -168,6 +170,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
                 + "Please try again");
     }
 
+    // MODIFIES: this
     // EFFECTS: saves the workroom to file
     private void saveBank() {
         try {

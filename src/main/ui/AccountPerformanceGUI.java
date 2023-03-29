@@ -8,22 +8,21 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // Represents the online banking system's account menu window frame
 public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
-    private static JLabel viewBalanceLabel;
     private static JTextField depositField;
     private static JTextField withdrawField;
     private static JLabel userMessageLabel;
     private static JComboBox<String> comboBox;
-    private JFrame previousFrame;
-    private Account account;
+    private final JFrame previousFrame;
+    private final Account account;
 
+    // MODIFIES: this
     // EFFECTS: Constructor sets up all the fields, buttons and instructions for the account menu
     public AccountPerformanceGUI(String name, Account account, JFrame previousFrame) {
 
@@ -37,67 +36,24 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new FlowLayout());
 
-        JButton depositCBtn = new JButton("Deposit into chequing account");
-        depositCBtn.setActionCommand("depositC");
-        depositCBtn.addActionListener(this);
-        JButton depositSBtn = new JButton("Deposit into saving account");
-        depositSBtn.setActionCommand("depositS");
-        depositSBtn.addActionListener(this);
+        createButtonsAndField();
+    }
 
-        JButton withdrawBtn = new JButton("Withdraw");
-        withdrawBtn.setActionCommand("withdraw");
-        withdrawBtn.addActionListener(this);
+    // MODIFIES: this
+    // EFFECTS: create buttons and fields
+    private void createButtonsAndField() {
+        JButton depositCBtn = setUpButtons("Deposit into chequing account", "depositC");
+        JButton depositSBtn = setUpButtons("Deposit into saving account", "depositS");
+        JButton withdrawBtn = setUpButtons("Withdraw", "withdraw");
+        JButton vcBtn = setUpButtons("Chequing account", "vc");
+        JButton vsBtn = setUpButtons("Saving account", "vs");
+        JButton vtBtn = setUpButtons("View transaction history", "vt");
+        JButton backButton = setUpButtons("Back to the main menu", "bb");
 
-        JButton vcBtn = new JButton("Chequing account");
-        vcBtn.setActionCommand("vc");
-        vcBtn.addActionListener(this);
+        createDepositLayout(depositCBtn, depositSBtn);
+        createWithdrawLayout(withdrawBtn);
+        createRecordsLayout(vcBtn, vsBtn, vtBtn);
 
-        JButton vsBtn = new JButton("Saving account");
-        vsBtn.setActionCommand("vs");
-        vsBtn.addActionListener(this);
-
-        JButton vtBtn = new JButton("View transaction history");
-        vtBtn.setActionCommand("vt");
-        vtBtn.addActionListener(this);
-
-        JButton backButton = new JButton("Back to the main menu");
-        backButton.setActionCommand("bb");
-        backButton.addActionListener(this);
-
-        depositField = new JTextField(15);
-        add(depositField);
-        add(depositCBtn);
-        add(depositSBtn);
-
-        withdrawField = new JTextField(15);
-        add(withdrawField);
-        add(withdrawBtn);
-
-        viewBalanceLabel = new JLabel("View account balance");
-        add(viewBalanceLabel);
-        add(vcBtn);
-        add(vsBtn);
-
-
-        String[] items = {"Select an option", "Show all transactions", "Show chequing transactions", "Show saving transactions"};
-//        ComboBoxModel<String> model = new DefaultComboBoxModel<>(items) {
-//            boolean selectionAllowed = false;
-//            @Override
-//            public void setSelectedItem(Object item) {
-//                if (!selectionAllowed) {
-//                    if (item != null && getIndexOf(item) == 0) {
-//                        super.setSelectedItem(null);
-//                        return;
-//                    }
-//                }
-//                super.setSelectedItem(item);
-//            }
-//        };
-
-        comboBox = new JComboBox<>(items);
-
-        add(comboBox);
-        add(vtBtn);
         add(backButton);
 
         userMessageLabel = new JLabel("");
@@ -108,6 +64,49 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         setResizable(false);
     }
 
+    // EFFECTS: initialise buttons
+    private JButton setUpButtons(String buttonName, String key) {
+        JButton button = new JButton(buttonName);
+        button.setActionCommand(key);
+        button.addActionListener(this);
+        return button;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initialise and render deposit field and button
+    private void createDepositLayout(JButton depositCBtn, JButton depositSBtn) {
+        depositField = new JTextField(15);
+        add(depositField);
+        add(depositCBtn);
+        add(depositSBtn);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initialise and render withdraw field and button
+    private void createWithdrawLayout(JButton withdrawBtn) {
+        withdrawField = new JTextField(15);
+        add(withdrawField);
+        add(withdrawBtn);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initialise and render account balance and transaction history fields and buttons
+    private void createRecordsLayout(JButton vcBtn, JButton vsBtn, JButton vtBtn) {
+        JLabel viewBalanceLabel = new JLabel("View account balance");
+        add(viewBalanceLabel);
+        add(vcBtn);
+        add(vsBtn);
+
+        String[] items = {"Select an option", "Show all transactions", "Show chequing transactions",
+                "Show saving transactions"};
+
+        comboBox = new JComboBox<>(items);
+
+        add(comboBox);
+        add(vtBtn);
+    }
+
+    // MODIFIES: this
     // EFFECTS: when the JButton btn is clicked, the related method is performed;
     //          depositC - deposit money into chequing account
     //          depositS - deposit money into saving account
@@ -184,18 +183,21 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         userMessageLabel.setText("Balance in your chequing account: $" + balance);
     }
 
+    // MODIFIES: this
     // EFFECTS: display the balance in the chequing account
     public void displayChequingBalance() {
         double balance = account.getChequingBalance();
         userMessageLabel.setText("Balance in your chequing account: $" + balance);
     }
 
+    // MODIFIES: this
     // EFFECTS: display the balance in the saving account
     public void displaySavingBalance() {
         double balance = account.getSavingBalance();
         userMessageLabel.setText("Balance in your saving account: $" + balance);
     }
 
+    // MODIFIES: this
     // EFFECTS: display the transaction history of this account
     public void displayTransactionHistory() {
         List<TransactionRecord> records = account.getTransactionHistory();
@@ -204,102 +206,78 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         if (records.isEmpty()) {
             userMessageLabel.setText("No transaction history on this account");
         } else {
-            if (selectedOption.equals("Select an option")) {
-                userMessageLabel.setText("Please select an option.");
-            } else if (selectedOption.equals("Show all transactions")) {
-                userMessageLabel.setText(" ");
-
-                JFrame allHistoryFrame = new JFrame("Account Page");
-                allHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                allHistoryFrame.setPreferredSize(new Dimension(700, 400));
-                ((JPanel) allHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
-                allHistoryFrame.setLayout(new FlowLayout());
-
-                for (TransactionRecord tr : records) {
-                    JLabel date = new JLabel("Transaction date: " + tr.getDate());
-                    JLabel username = new JLabel("Username:         " + tr.getUsername());
-                    JLabel accountType = new JLabel("Account type:     " + tr.getAccountType());
-                    JLabel transactionType = new JLabel("Transaction Type: " + tr.getTransactionType());
-                    JLabel amount = new JLabel("Amount:           $" + tr.getTransactionAmount());
-
-                    allHistoryFrame.add(date);
-                    allHistoryFrame.add(username);
-                    allHistoryFrame.add(accountType);
-                    allHistoryFrame.add(transactionType);
-                    allHistoryFrame.add(amount);
-
-                    allHistoryFrame.pack();
-                    allHistoryFrame.setLocationRelativeTo(null);
-                    allHistoryFrame.setVisible(true);
-                    allHistoryFrame.setResizable(false);
-                }
-            } else if (selectedOption.equals("Show chequing transactions")) {
-                userMessageLabel.setText(" ");
-                List<TransactionRecord> depositRecords = new ArrayList<>();
-
-                JFrame depositHistoryFrame = new JFrame("Account Page");
-                depositHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                depositHistoryFrame.setPreferredSize(new Dimension(700, 400));
-                ((JPanel) depositHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
-                depositHistoryFrame.setLayout(new FlowLayout());
-
-                for (TransactionRecord tr : records) {
-                    if (tr.getAccountType().equals("Chequing")) {
-                        depositRecords.add(tr);
-                    }
-                }
-                for (TransactionRecord tr : depositRecords) {
-                    JLabel date = new JLabel("Transaction date: " + tr.getDate());
-                    JLabel username = new JLabel("Username:         " + tr.getUsername());
-                    JLabel accountType = new JLabel("Account type:     " + tr.getAccountType());
-                    JLabel transactionType = new JLabel("Transaction Type: " + tr.getTransactionType());
-                    JLabel amount = new JLabel("Amount:           $" + tr.getTransactionAmount());
-
-                    depositHistoryFrame.add(date);
-                    depositHistoryFrame.add(username);
-                    depositHistoryFrame.add(accountType);
-                    depositHistoryFrame.add(transactionType);
-                    depositHistoryFrame.add(amount);
-
-                    depositHistoryFrame.pack();
-                    depositHistoryFrame.setLocationRelativeTo(null);
-                    depositHistoryFrame.setVisible(true);
-                    depositHistoryFrame.setResizable(false);
-                }
-            } else if (selectedOption.equals("Show saving transactions")) {
-                userMessageLabel.setText(" ");
-                List<TransactionRecord> savingRecords = new ArrayList<>();
-
-                JFrame savingHistoryFrame = new JFrame("Account Page");
-                savingHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                savingHistoryFrame.setPreferredSize(new Dimension(700, 400));
-                ((JPanel) savingHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
-                savingHistoryFrame.setLayout(new FlowLayout());
-
-                for (TransactionRecord tr : records) {
-                    if (tr.getAccountType().equals("Saving")) {
-                        savingRecords.add(tr);
-                    }
-                }
-                for (TransactionRecord tr : savingRecords) {
-                    JLabel date = new JLabel("Transaction date: " + tr.getDate());
-                    JLabel username = new JLabel("Username:         " + tr.getUsername());
-                    JLabel accountType = new JLabel("Account type:     " + tr.getAccountType());
-                    JLabel transactionType = new JLabel("Transaction Type: " + tr.getTransactionType());
-                    JLabel amount = new JLabel("Amount:           $" + tr.getTransactionAmount());
-
-                    savingHistoryFrame.add(date);
-                    savingHistoryFrame.add(username);
-                    savingHistoryFrame.add(accountType);
-                    savingHistoryFrame.add(transactionType);
-                    savingHistoryFrame.add(amount);
-
-                    savingHistoryFrame.pack();
-                    savingHistoryFrame.setLocationRelativeTo(null);
-                    savingHistoryFrame.setVisible(true);
-                    savingHistoryFrame.setResizable(false);
-                }
+            switch (Objects.requireNonNull(selectedOption)) {
+                case "Select an option":
+                    userMessageLabel.setText("Please select an option.");
+                    break;
+                case "Show all transactions":
+                    userMessageLabel.setText(" ");
+                    displayAllTransactionHistory(records);
+                    break;
+                case "Show chequing transactions":
+                    userMessageLabel.setText(" ");
+                    displaySpecificAccountTransactionHistory(records, "Chequing");
+                    break;
+                case "Show saving transactions":
+                    userMessageLabel.setText(" ");
+                    displaySpecificAccountTransactionHistory(records, "Saving");
+                    break;
             }
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: display the transaction history of the given account type; chequing or saving
+    private void displaySpecificAccountTransactionHistory(List<TransactionRecord> records, String account) {
+        List<TransactionRecord> accountRecords = new ArrayList<>();
+
+        JFrame accountHistoryFrame = new JFrame("Account Page");
+        accountHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        accountHistoryFrame.setPreferredSize(new Dimension(700, 400));
+        ((JPanel) accountHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+        accountHistoryFrame.setLayout(new FlowLayout());
+
+        for (TransactionRecord tr : records) {
+            if (tr.getAccountType().equals(account)) {
+
+                accountRecords.add(tr);
+            }
+        }
+        renderTransactionHistory(accountRecords, accountHistoryFrame);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: render all the transaction history of the given specific account type; chequing or saving
+    private void renderTransactionHistory(List<TransactionRecord> accountRecords, JFrame accountHistoryFrame) {
+        for (TransactionRecord tr : accountRecords) {
+            JLabel date = new JLabel("Transaction date: " + tr.getDate());
+            JLabel username = new JLabel("Username:         " + tr.getUsername());
+            JLabel accountType = new JLabel("Account type:     " + tr.getAccountType());
+            JLabel transactionType = new JLabel("Transaction Type: " + tr.getTransactionType());
+            JLabel amount = new JLabel("Amount:           $" + tr.getTransactionAmount());
+
+            accountHistoryFrame.add(date);
+            accountHistoryFrame.add(username);
+            accountHistoryFrame.add(accountType);
+            accountHistoryFrame.add(transactionType);
+            accountHistoryFrame.add(amount);
+
+            accountHistoryFrame.pack();
+            accountHistoryFrame.setLocationRelativeTo(null);
+            accountHistoryFrame.setVisible(true);
+            accountHistoryFrame.setResizable(false);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: render all the transaction history associated with the account
+    private void displayAllTransactionHistory(List<TransactionRecord> records) {
+        JFrame allHistoryFrame = new JFrame("Account Page");
+        allHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        allHistoryFrame.setPreferredSize(new Dimension(700, 400));
+        ((JPanel) allHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+        allHistoryFrame.setLayout(new FlowLayout());
+
+        renderTransactionHistory(records, allHistoryFrame);
     }
 }
