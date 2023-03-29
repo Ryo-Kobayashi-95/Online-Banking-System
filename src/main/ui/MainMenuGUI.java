@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+// Represents the online banking system's main menu window frame
 public class MainMenuGUI extends JFrame implements ActionListener {
 
     private static JLabel userNameLabel;
@@ -26,7 +27,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-
+    // EFFECTS: Constructor runs the online baking system and sets up all the fields,
+    //          buttons and instructions for the main menu
     public MainMenuGUI() {
 
         super("Main menu");
@@ -39,6 +41,9 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(700, 400));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
         setLayout(new FlowLayout());
+
+//      TODO: too long method. create new method to shorten
+
 
         JButton createBtn = new JButton("Create");
         createBtn.setActionCommand("create");
@@ -56,10 +61,6 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         loadBtn.setActionCommand("load");
         loadBtn.addActionListener(this);
 
-        JButton quitBtn = new JButton("Quit");
-        quitBtn.setActionCommand("quit");
-        quitBtn.addActionListener(this);
-
         userNameLabel = new JLabel("Username");
         nameField = new JTextField(15);
         add(userNameLabel);
@@ -74,7 +75,6 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         add(loginBtn);
         add(saveBtn);
         add(loadBtn);
-        add(quitBtn);
 
         userMessageLabel = new JLabel("");
         add(userMessageLabel);
@@ -84,7 +84,11 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         setResizable(false);
     }
 
-    //This is the method that is called when the JButton btn is clicked
+    // EFFECTS: when the JButton btn is clicked, the related method is performed;
+    //          create - create a new account
+    //          login - login to an existing account if there is one
+    //          save - save the state of the application
+    //          load - load the state of the application
     @Override
     public void actionPerformed(ActionEvent e) {
         String name = nameField.getText();
@@ -103,8 +107,6 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             saveBank();
         } else if (e.getActionCommand().equals("load")) {
             loadBank();
-        } else if (e.getActionCommand().equals("quit")) {
-            userMessageLabel.setText("Thank you for using Bank of UBC! See you soon...");
         }
     }
 
@@ -126,6 +128,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         String passStr = Integer.toString(pass);
         int size = passStr.length();
 
+//      TODO: show an error message for invalid password in red color
+
         while (size != 4) {
             userMessageLabel.setText("Invalid password. Password must be 4 digits long. Please try again.");
             pass = Integer.parseInt(passwordField.getText());
@@ -144,6 +148,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // EFFECTS: login to the existing account
     public void loginToAccount(String name, int pass) {
 
+//      TODO: accept the lower case too
+
         Account account = list.getAccount(name, pass);
         if (account == null) {
             noAccountHandler();
@@ -157,10 +163,10 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // EFFECTS: handle a situation where given username and/or password not found in the account list.
     //          ask to re-enter or go back to the main menu
     public void noAccountHandler() {
+//      TODO: show an error message in red color
         userMessageLabel.setText("There is no account with the given username and/or password." + "\n"
                 + "Please try again");
     }
-
 
     // EFFECTS: saves the workroom to file
     private void saveBank() {

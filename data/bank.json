@@ -1,57 +1,64 @@
 {"accounts": [
     {
         "password": 1234,
-        "savingBalance": 1000,
-        "chequingBalance": 1000,
+        "savingBalance": 1500,
+        "chequingBalance": 500,
         "transactionHistory": [
             {
                 "transactionType": "Deposit",
-                "date": "Tue Mar 28 01:19:22 PDT 2023",
+                "date": "Tue Mar 28 17:29:49 PDT 2023",
                 "accountType": "Chequing",
-                "transactionAmount": 1500,
-                "username": "Ryo"
+                "transactionAmount": 1000,
+                "username": "ryo"
             },
             {
                 "transactionType": "Deposit",
-                "date": "Tue Mar 28 01:19:30 PDT 2023",
+                "date": "Tue Mar 28 17:29:55 PDT 2023",
                 "accountType": "Saving",
-                "transactionAmount": 1000,
-                "username": "Ryo"
+                "transactionAmount": 1500,
+                "username": "ryo"
             },
             {
                 "transactionType": "Withdraw",
-                "date": "Tue Mar 28 01:19:37 PDT 2023",
+                "date": "Tue Mar 28 17:30:00 PDT 2023",
                 "accountType": "Chequing",
-                "transactionAmount": -150,
-                "username": "Ryo"
+                "transactionAmount": -100,
+                "username": "ryo"
             },
             {
                 "transactionType": "Withdraw",
-                "date": "Tue Mar 28 01:19:44 PDT 2023",
+                "date": "Tue Mar 28 17:30:05 PDT 2023",
                 "accountType": "Chequing",
-                "transactionAmount": -350,
-                "username": "Ryo"
+                "transactionAmount": -400,
+                "username": "ryo"
             }
         ],
-        "username": "Ryo"
+        "username": "ryo"
     },
     {
         "password": 5678,
-        "savingBalance": 0,
-        "chequingBalance": 100,
+        "savingBalance": 5677,
+        "chequingBalance": 1222,
         "transactionHistory": [
             {
                 "transactionType": "Deposit",
-                "date": "Tue Mar 28 01:20:07 PDT 2023",
+                "date": "Tue Mar 28 17:30:33 PDT 2023",
                 "accountType": "Chequing",
-                "transactionAmount": 111,
+                "transactionAmount": 1234,
+                "username": "James"
+            },
+            {
+                "transactionType": "Deposit",
+                "date": "Tue Mar 28 17:30:40 PDT 2023",
+                "accountType": "Saving",
+                "transactionAmount": 5677,
                 "username": "James"
             },
             {
                 "transactionType": "Withdraw",
-                "date": "Tue Mar 28 01:20:09 PDT 2023",
+                "date": "Tue Mar 28 17:30:46 PDT 2023",
                 "accountType": "Chequing",
-                "transactionAmount": -11,
+                "transactionAmount": -12,
                 "username": "James"
             }
         ],
