@@ -6,18 +6,19 @@ import java.util.Date;
 // and amount deposited and/or withdrawn
 public class TransactionRecord {
 
-    private String username;
-    private String accountType;
-    private String transactionType;
-    private Date date;
-    private double transactionAmount;
+    private final String username;
+    private final String accountType;
+    private final String transactionType;
+    private final String date;
+    private final double transactionAmount;
 
     // EFFECTS: create a transaction record given date, username, account type and transaction amount
-    public TransactionRecord(String username, String accountType, String transactionType, double transactionAmount) {
+    public TransactionRecord(String username, String accountType, String transactionType,
+                             String date, double transactionAmount) {
         this.username = username;
         this.accountType = accountType;
         this.transactionType = transactionType;
-        this.date = new Date();
+        this.date = date;
         this.transactionAmount = transactionAmount;
     }
 
@@ -37,7 +38,7 @@ public class TransactionRecord {
         return this.transactionAmount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return this.date;
     }
 }

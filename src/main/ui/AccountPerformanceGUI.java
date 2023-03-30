@@ -89,7 +89,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         JPanel fixedMessagePanel1 = createFixedMessage("Deposit:");
         add(fixedMessagePanel1);
         createDepositLayout(depositBtn);
-        addMessagePanels(depositMessage, depositMessageLabel);
+        depositMessage = addMessagePanels(depositMessageLabel);
 
         JPanel fixedMessagePanel2 = createFixedMessage("Withdraw:");
         add(fixedMessagePanel2);
@@ -97,17 +97,17 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
         JPanel withdrawNote = createWithdrawMessage();
         add(withdrawNote);
-        addMessagePanels(withdrawMessage, withdrawMessageLabel);
+        withdrawMessage = addMessagePanels(withdrawMessageLabel);
 
         JPanel fixedMessagePanel3 = createFixedMessage("View account balance");
         add(fixedMessagePanel3);
         createRecordsLayout(vcBtn, vsBtn);
-        addMessagePanels(balanceMessage, balanceMessageLabel);
+        balanceMessage = addMessagePanels(balanceMessageLabel);
 
         JPanel fixedMessagePanel4 = createFixedMessage("View transaction history");
         add(fixedMessagePanel4);
         createTransactionHistoryLayout(vtBtn);
-        addMessagePanels(transactionHistoryMessage, transactionHistoryLabel);
+        transactionHistoryMessage = addMessagePanels(transactionHistoryLabel);
 
         JPanel spaceLabel = initJPanel(PANEL_HEIGHT);
         add(spaceLabel.add(new JLabel("")));
@@ -118,9 +118,10 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: add all the message panels to the account menu
-    private void addMessagePanels(JPanel message, JLabel messageLabel) {
-        message = createMessagePanel(messageLabel);
+    private JPanel addMessagePanels(JLabel messageLabel) {
+        JPanel message = createMessagePanel(messageLabel);
         add(message);
+        return message;
     }
 
     // MODIFIES: this
@@ -292,14 +293,14 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         } else {
             account.deposit(accountType, depositAmount);
             if (accountType.equals("c")) {
-                depositMessageLabel.setText("The money has been deposited into your chequing account successfully!");
-                depositMessageLabel.setForeground(Color.BLACK);
-                depositMessage.add(depositMessageLabel);
+                depositMessageLabel.setText("$" + depositAmount
+                        + " deposited into your chequing account successfully!");
             } else {
-                depositMessageLabel.setText("The money has been deposited into your saving account successfully!");
-                depositMessageLabel.setForeground(Color.BLACK);
-                depositMessage.add(depositMessageLabel);
+                depositMessageLabel.setText("$" + depositAmount
+                        + " deposited into your saving account successfully!");
             }
+            depositMessageLabel.setForeground(Color.BLACK);
+            depositMessage.add(depositMessageLabel);
         }
     }
 
@@ -319,7 +320,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         } else {
             account.withdraw("c", withdrawAmount);
             double balance = account.getChequingBalance();
-            withdrawMessageLabel.setText("Balance in your chequing account: $" + balance);
+            withdrawMessageLabel.setText("The transaction was successful! Balance in your chequing account: $"
+                    + balance);
             withdrawMessageLabel.setForeground(Color.BLACK);
             withdrawMessage.add(withdrawMessageLabel);
         }
@@ -354,11 +356,10 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
             transactionHistoryLabel.setForeground(Color.RED);
             transactionHistoryMessage.add(transactionHistoryLabel);
         } else {
+            transactionHistoryLabel.setText("");
+            transactionHistoryMessage.add(transactionHistoryLabel);
             accountSelectionForHistoryFromDropdownBox(records, selectedOption);
         }
-
-        transactionHistoryLabel.setText("");
-        transactionHistoryMessage.add(transactionHistoryLabel);
     }
 
     // MODIFIES: this

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.stream.Stream;
 
 import model.Account;
@@ -94,10 +95,11 @@ public class JsonReader {
         String name = jsonObject.getString("username");
         String accountType = jsonObject.getString("accountType");
         String transactionType = jsonObject.getString("transactionType");
+        String date = jsonObject.getString("date");
         double transactionAmount = jsonObject.getDouble("transactionAmount");
 
         account.getTransactionHistory().add(new TransactionRecord(name, accountType,
-                transactionType, transactionAmount));
+                transactionType, date, transactionAmount));
 
     }
 

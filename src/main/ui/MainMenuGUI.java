@@ -19,7 +19,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     private static JTextField nameField;
     private static JPasswordField passwordField;
     private static final JLabel messageLabel1 = new JLabel("Let's see what we can do...");
-    private static final JLabel messageLabel2 = new JLabel("Make sure to click 'Save' and 'Load'!");
+    private static final JLabel messageLabel2 = new JLabel("Make sure to click 'Save' and/or 'Load'!");
     private static JPanel responsePanel1;
     private static JPanel responsePanel2;
 
@@ -217,7 +217,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: login to the existing account
     public void loginToAccount(String name, int pass) {
-        messageLabel1.setText("");
+        messageLabel1.setText("Let's see what we can do...");
+        messageLabel1.setForeground(Color.BLACK);
         responsePanel1.add(messageLabel1);
 
         Account account = list.getAccount(name, pass);

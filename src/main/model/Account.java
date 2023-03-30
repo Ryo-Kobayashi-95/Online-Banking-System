@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 // Citation:
@@ -17,7 +18,8 @@ public class Account implements Writable {
     private int password;
     private double chequingBalance;
     private double savingBalance;
-    private List<TransactionRecord> transactionHistory;
+    private final List<TransactionRecord> transactionHistory;
+    private Date date;
 
     // REQUIRES: username must be at least one character long AND
     //           username and password must be unique, meaning no duplicates in the ListOfAccounts
@@ -70,28 +72,32 @@ public class Account implements Writable {
     // MODIFIES: this
     // EFFECTS: add amount to this chequing balance or saving balance
     public void deposit(String accountType, double amount) {
+        date = new Date();
+        String dateStr = date.toString();
         if (accountType.equals("c")) {
             this.chequingBalance += amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
-                    "Deposit", amount));
+                    "Deposit", dateStr, amount));
         } else {
             this.savingBalance += amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
-                    "Deposit", amount));
+                    "Deposit", dateStr, amount));
         }
     }
 
     // MODIFIES: this
     // EFFECTS: subtract amount from this chequing balance or saving balance
     public void withdraw(String accountType, double amount) {
+        date = new Date();
+        String dateStr = date.toString();
         if (accountType.equals("c")) {
             this.chequingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
-                    "Withdraw", -amount));
+                    "Withdraw", dateStr, -amount));
         } else {
             this.savingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
-                    "Withdraw", -amount));
+                    "Withdraw", dateStr, -amount));
         }
     }
 
