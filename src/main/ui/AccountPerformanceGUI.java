@@ -17,15 +17,23 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
     private static JTextField depositField;
     private static JTextField withdrawField;
-    private static JLabel userMessageLabel;
-    private static JLabel errorMessageLabel;
+    private static final JLabel depositMessageLabel = new JLabel("");
+    private static final JLabel withdrawMessageLabel = new JLabel("");
+    private static final JLabel balanceMessageLabel = new JLabel("");
+    private static final JLabel transactionHistoryLabel = new JLabel("");
     private static JComboBox<String> comboBoxHistory;
     private static JComboBox<String> comboBoxDeposit;
     private final JFrame previousFrame;
     private final Account account;
     private final String name;
 
-    private static final int WINDOW_WIDTH = 1000;
+    private static JPanel depositMessage;
+    private static JPanel withdrawMessage;
+    private static JPanel balanceMessage;
+    private static JPanel transactionHistoryMessage;
+
+    private static final int WINDOW_WIDTH = 550;
+    private static final int PANEL_HEIGHT = 30;
 
     // MODIFIES: this
     // EFFECTS: Constructor sets up all the fields, buttons and instructions for the account menu
@@ -38,7 +46,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         this.name = name;
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(WINDOW_WIDTH, 400));
+        setPreferredSize(new Dimension(WINDOW_WIDTH, 700));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new FlowLayout());
 
@@ -55,21 +63,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         JButton vtBtn = setUpButtons("View transaction history", "vt");
         JButton backButton = setUpButtons("Back to the main menu", "bb");
 
-        JLabel greeting = new JLabel("Welcome back, " + name + "!" + " How can I help you today?");
-
-        add(greeting);
-
-        createDepositLayout(depositBtn);
-
-        JLabel withdrawConstraintMessage = new JLabel("Note: you can only withdraw from your "
-                + "chequing account at this time");
-        add(withdrawConstraintMessage);
-        createWithdrawLayout(withdrawBtn);
-        createRecordsLayout(vcBtn, vsBtn, vtBtn);
-
-        add(backButton);
-
-        createMessage();
+        createPanels(depositBtn, withdrawBtn, vcBtn, vsBtn, vtBtn, backButton);
 
         pack();
         setLocationRelativeTo(null);
@@ -78,14 +72,110 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: insert user message for successful user command, and error message for erroneous user command
-    private void createMessage() {
-        userMessageLabel = new JLabel("");
-        add(userMessageLabel);
+    // EFFECTS: create all the panels
+    private void createPanels(JButton depositBtn, JButton withdrawBtn, JButton vcBtn, JButton vsBtn, JButton vtBtn,
+                              JButton backButton) {
+        JPanel greeting = createGreetingMessage("Welcome back, " + name + "!" + " How can I help you today?");
+        add(greeting);
 
-        errorMessageLabel = new JLabel("");
-        errorMessageLabel.setForeground(Color.RED);
-        add(errorMessageLabel);
+        addPanels(depositBtn, withdrawBtn, vcBtn, vsBtn, vtBtn, backButton);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add all the panels to the account menu
+    private void addPanels(JButton depositBtn, JButton withdrawBtn, JButton vcBtn, JButton vsBtn,
+                           JButton vtBtn, JButton backButton) {
+
+        JPanel fixedMessagePanel1 = createFixedMessage("Deposit:");
+        add(fixedMessagePanel1);
+        createDepositLayout(depositBtn);
+        addMessagePanels(depositMessage, depositMessageLabel);
+
+        JPanel fixedMessagePanel2 = createFixedMessage("Withdraw:");
+        add(fixedMessagePanel2);
+        createWithdrawLayout(withdrawBtn);
+
+        JPanel withdrawNote = createWithdrawMessage();
+        add(withdrawNote);
+        addMessagePanels(withdrawMessage, withdrawMessageLabel);
+
+        JPanel fixedMessagePanel3 = createFixedMessage("View account balance");
+        add(fixedMessagePanel3);
+        createRecordsLayout(vcBtn, vsBtn);
+        addMessagePanels(balanceMessage, balanceMessageLabel);
+
+        JPanel fixedMessagePanel4 = createFixedMessage("View transaction history");
+        add(fixedMessagePanel4);
+        createTransactionHistoryLayout(vtBtn);
+        addMessagePanels(transactionHistoryMessage, transactionHistoryLabel);
+
+        JPanel spaceLabel = initJPanel(PANEL_HEIGHT);
+        add(spaceLabel.add(new JLabel("")));
+        JPanel backButtonPanel = initJPanel(PANEL_HEIGHT);
+        backButtonPanel.add(backButton);
+        add(backButtonPanel);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add all the message panels to the account menu
+    private void addMessagePanels(JPanel message, JLabel messageLabel) {
+        message = createMessagePanel(messageLabel);
+        add(message);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initialise and render greeting message panel in this frame
+    private JPanel createGreetingMessage(String text) {
+        JPanel fixedMessagePanel = initJPanel(60);
+        JLabel message = new JLabel(text);
+        message.setBounds(10, 10, WINDOW_WIDTH, PANEL_HEIGHT);
+        message.setFont(new Font("", Font.BOLD, 15));
+        fixedMessagePanel.add(message);
+        return fixedMessagePanel;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initialise and render withdraw message panel in this frame
+    private JPanel createWithdrawMessage() {
+        JPanel fixedMessagePanel = initJPanel(25);
+        JLabel message = new JLabel("Note: you can only withdraw from your "
+                + "chequing account at this time");
+        message.setBounds(10, 10, WINDOW_WIDTH, PANEL_HEIGHT);
+        message.setFont(new Font("", Font.BOLD, 10));
+        message.setForeground(Color.RED);
+        fixedMessagePanel.add(message);
+        return fixedMessagePanel;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initialise and render constant message panel in this frame
+    private JPanel createFixedMessage(String text) {
+        JPanel fixedMessagePanel = initJPanel(20);
+        JLabel message = new JLabel(text);
+        message.setBounds(10, 10, WINDOW_WIDTH, PANEL_HEIGHT);
+        message.setFont(new Font("", Font.BOLD, 13));
+        fixedMessagePanel.add(message);
+        return fixedMessagePanel;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initialise JPanel in this frame
+    private JPanel initJPanel(int height) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        panel.setPreferredSize(new Dimension(WINDOW_WIDTH, height));
+        panel.setBounds(10, 10, WINDOW_WIDTH, PANEL_HEIGHT);
+        return panel;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: insert user message for successful user command, and error message for erroneous user command
+    private JPanel createMessagePanel(JLabel message) {
+        JPanel messagePanel = initJPanel(PANEL_HEIGHT);
+        messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        messagePanel.setPreferredSize(new Dimension(WINDOW_WIDTH, 40));
+        messagePanel.add(message);
+        return messagePanel;
     }
 
     // EFFECTS: initialise buttons
@@ -99,40 +189,49 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initialise and render deposit field and button
     private void createDepositLayout(JButton depositBtn) {
+        JPanel depositPanel = initJPanel(50);
         depositField = new JTextField(15);
+        depositField.setMaximumSize(depositField.getPreferredSize());
 
         String[] items = {"Select the account", "Chequing account", "Saving account"};
-
         comboBoxDeposit = new JComboBox<>(items);
 
-        add(depositField);
-        add(comboBoxDeposit);
-        add(depositBtn);
+        depositPanel.add(depositField);
+        depositPanel.add(comboBoxDeposit);
+        depositPanel.add(depositBtn);
+        add(depositPanel);
     }
 
     // MODIFIES: this
     // EFFECTS: initialise and render withdraw field and button
     private void createWithdrawLayout(JButton withdrawBtn) {
+        JPanel withdrawPanel = initJPanel(25);
         withdrawField = new JTextField(15);
-        add(withdrawField);
-        add(withdrawBtn);
+        withdrawField.setMaximumSize(withdrawField.getPreferredSize());
+        withdrawPanel.add(withdrawField);
+        withdrawPanel.add(withdrawBtn);
+        add(withdrawPanel);
     }
 
     // MODIFIES: this
-    // EFFECTS: initialise and render account balance and transaction history fields and buttons
-    private void createRecordsLayout(JButton vcBtn, JButton vsBtn, JButton vtBtn) {
-        JLabel viewBalanceLabel = new JLabel("View account balance");
-        add(viewBalanceLabel);
-        add(vcBtn);
-        add(vsBtn);
+    // EFFECTS: initialise and render account balance buttons
+    private void createRecordsLayout(JButton vcBtn, JButton vsBtn) {
+        JPanel recordPanel = initJPanel(50);
+        recordPanel.add(vcBtn);
+        recordPanel.add(vsBtn);
+        add(recordPanel);
+    }
 
+    // MODIFIES: this
+    // EFFECTS: initialise and render transaction history dropdown box and buttons
+    private void createTransactionHistoryLayout(JButton button) {
+        JPanel transactionHistoryPanel = initJPanel(50);
         String[] items = {"Select an option", "Show all transactions", "Show chequing transactions",
                 "Show saving transactions"};
-
         comboBoxHistory = new JComboBox<>(items);
-
-        add(comboBoxHistory);
-        add(vtBtn);
+        transactionHistoryPanel.add(comboBoxHistory);
+        transactionHistoryPanel.add(button);
+        add(transactionHistoryPanel);
     }
 
     // MODIFIES: this
@@ -146,7 +245,6 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     //          bb       - go back to the main menu
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getActionCommand().equals("deposit")) {
             accountSelectionForDepositFromDropdownBox();
         } else if (e.getActionCommand().equals("withdraw")) {
@@ -169,17 +267,14 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         String selectedOption = (String) comboBoxDeposit.getSelectedItem();
         switch (Objects.requireNonNull(selectedOption)) {
             case "Select the account":
-                userMessageLabel.setText("");
-                errorMessageLabel.setText("Please select the account");
+                depositMessageLabel.setText("Please select the account");
+                depositMessageLabel.setForeground(Color.RED);
+                depositMessage.add(depositMessageLabel);
                 break;
             case "Chequing account":
-                userMessageLabel.setText(" ");
-                errorMessageLabel.setText(" ");
                 depositMoney("c");
                 break;
             case "Saving account":
-                userMessageLabel.setText(" ");
-                errorMessageLabel.setText(" ");
                 depositMoney("s");
                 break;
         }
@@ -189,23 +284,21 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // EFFECTS: perform a deposit transaction; put the money in to the chequing or saving account,
     //          or ask to re-enter the amount if it is invalid (amount < 0)
     public void depositMoney(String accountType) {
-
-//      TODO: invalid amount needs to be handled
-
         double depositAmount = Integer.parseInt(depositField.getText());
         if (depositAmount < 0) {
-            userMessageLabel.setText("");
-            errorMessageLabel.setText("Invalid amount. Please try again");
+            depositMessageLabel.setText("Invalid amount. Please try again");
+            depositMessageLabel.setForeground(Color.RED);
+            depositMessage.add(depositMessageLabel);
         } else {
             account.deposit(accountType, depositAmount);
             if (accountType.equals("c")) {
-                errorMessageLabel.setText("");
-                userMessageLabel.setText("The money has been deposited into your chequing account successfully!"
-                        + " The balance in your chequing account is $" + account.getChequingBalance());
+                depositMessageLabel.setText("The money has been deposited into your chequing account successfully!");
+                depositMessageLabel.setForeground(Color.BLACK);
+                depositMessage.add(depositMessageLabel);
             } else {
-                errorMessageLabel.setText("");
-                userMessageLabel.setText("The money has been deposited into your saving account successfully!"
-                        + " The balance in your saving account is $" + account.getSavingBalance());
+                depositMessageLabel.setText("The money has been deposited into your saving account successfully!");
+                depositMessageLabel.setForeground(Color.BLACK);
+                depositMessage.add(depositMessageLabel);
             }
         }
     }
@@ -214,20 +307,21 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // EFFECTS: perform a withdrawal transaction. Subtract the money from the chequing,
     //          or ask the user to re-enter the amount if amount < 0 or amount > account.getChequingBalance()
     public void withdrawMoney() {
-
         double withdrawAmount = Integer.parseInt(withdrawField.getText());
         if (withdrawAmount > account.getChequingBalance()) {
-            userMessageLabel.setText("");
-            errorMessageLabel.setText("Insufficient balance in your chequing account. Please try again");
+            withdrawMessageLabel.setText("Insufficient balance in your chequing account. Please try again");
+            withdrawMessageLabel.setForeground(Color.RED);
+            withdrawMessage.add(withdrawMessageLabel);
         } else if (withdrawAmount < 0) {
-            userMessageLabel.setText("");
-            errorMessageLabel.setText("Invalid amount. Please try again");
+            withdrawMessageLabel.setText("Invalid amount. Please try again");
+            withdrawMessageLabel.setForeground(Color.RED);
+            withdrawMessage.add(withdrawMessageLabel);
         } else {
             account.withdraw("c", withdrawAmount);
-
             double balance = account.getChequingBalance();
-            errorMessageLabel.setText("");
-            userMessageLabel.setText("Balance in your chequing account: $" + balance);
+            withdrawMessageLabel.setText("Balance in your chequing account: $" + balance);
+            withdrawMessageLabel.setForeground(Color.BLACK);
+            withdrawMessage.add(withdrawMessageLabel);
         }
     }
 
@@ -235,16 +329,18 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // EFFECTS: display the balance in the chequing account
     public void displayChequingBalance() {
         double balance = account.getChequingBalance();
-        errorMessageLabel.setText(" ");
-        userMessageLabel.setText("Balance in your chequing account: $" + balance);
+        balanceMessageLabel.setText("Balance in your chequing account: $" + balance);
+        balanceMessageLabel.setForeground(Color.BLACK);
+        balanceMessage.add(balanceMessageLabel);
     }
 
     // MODIFIES: this
     // EFFECTS: display the balance in the saving account
     public void displaySavingBalance() {
         double balance = account.getSavingBalance();
-        errorMessageLabel.setText(" ");
-        userMessageLabel.setText("Balance in your saving account: $" + balance);
+        balanceMessageLabel.setText("Balance in your saving account: $" + balance);
+        balanceMessageLabel.setForeground(Color.BLACK);
+        balanceMessage.add(balanceMessageLabel);
     }
 
     // MODIFIES: this
@@ -254,11 +350,15 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         String selectedOption = (String) comboBoxHistory.getSelectedItem();
 
         if (records.isEmpty()) {
-            userMessageLabel.setText("");
-            errorMessageLabel.setText("No transaction history on this account");
+            transactionHistoryLabel.setText("No transaction history on this account");
+            transactionHistoryLabel.setForeground(Color.RED);
+            transactionHistoryMessage.add(transactionHistoryLabel);
         } else {
             accountSelectionForHistoryFromDropdownBox(records, selectedOption);
         }
+
+        transactionHistoryLabel.setText("");
+        transactionHistoryMessage.add(transactionHistoryLabel);
     }
 
     // MODIFIES: this
@@ -266,22 +366,17 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     private void accountSelectionForHistoryFromDropdownBox(List<TransactionRecord> records, String selectedOption) {
         switch (Objects.requireNonNull(selectedOption)) {
             case "Select an option":
-                userMessageLabel.setText("");
-                errorMessageLabel.setText("Please select an option.");
+                transactionHistoryLabel.setText("Please select an option");
+                transactionHistoryLabel.setForeground(Color.RED);
+                transactionHistoryMessage.add(transactionHistoryLabel);
                 break;
             case "Show all transactions":
-                userMessageLabel.setText(" ");
-                errorMessageLabel.setText(" ");
                 displayAllTransactionHistory(records);
                 break;
             case "Show chequing transactions":
-                userMessageLabel.setText(" ");
-                errorMessageLabel.setText(" ");
                 displaySpecificAccountTransactionHistory(records, "Chequing");
                 break;
             case "Show saving transactions":
-                userMessageLabel.setText(" ");
-                errorMessageLabel.setText(" ");
                 displaySpecificAccountTransactionHistory(records, "Saving");
                 break;
         }
@@ -291,12 +386,12 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // EFFECTS: display the transaction history of the given account type; chequing or saving
     private void displaySpecificAccountTransactionHistory(List<TransactionRecord> records, String account) {
         List<TransactionRecord> accountRecords = new ArrayList<>();
-
         JFrame accountHistoryFrame = new JFrame("Transaction history of your "
                 + account.toLowerCase() + " account");
         accountHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        accountHistoryFrame.setPreferredSize(new Dimension(WINDOW_WIDTH, 400));
-        ((JPanel) accountHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+        accountHistoryFrame.setPreferredSize(new Dimension(400, 1000));
+        ((JPanel) accountHistoryFrame.getContentPane()).setBorder(new EmptyBorder(
+                13, 13, 13, 13));
         accountHistoryFrame.setLayout(new FlowLayout());
 
         for (TransactionRecord tr : records) {
@@ -313,33 +408,63 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     private void renderTransactionHistory(List<TransactionRecord> accountRecords, JFrame accountHistoryFrame) {
         for (TransactionRecord tr : accountRecords) {
             JLabel date = new JLabel("Transaction date: " + tr.getDate());
-            JLabel username = new JLabel("Username:         " + tr.getUsername());
-            JLabel accountType = new JLabel("Account type:     " + tr.getAccountType());
-            JLabel transactionType = new JLabel("Transaction Type: " + tr.getTransactionType());
-            JLabel amount = new JLabel("Amount:           $" + tr.getTransactionAmount());
+            JLabel username = new JLabel("Username:            " + tr.getUsername());
+            JLabel accountType = new JLabel("Account type:       " + tr.getAccountType());
+            JLabel transactionType = new JLabel("Transaction type: " + tr.getTransactionType());
+            JLabel amount = new JLabel("Amount:               $" + tr.getTransactionAmount());
 
-            accountHistoryFrame.add(date);
-            accountHistoryFrame.add(username);
-            accountHistoryFrame.add(accountType);
-            accountHistoryFrame.add(transactionType);
-            accountHistoryFrame.add(amount);
+            createPanelsForTransactionHistory(accountHistoryFrame, date, username,
+                    accountType, transactionType, amount);
 
             accountHistoryFrame.pack();
             accountHistoryFrame.setLocationRelativeTo(null);
             accountHistoryFrame.setVisible(true);
-            accountHistoryFrame.setResizable(false);
+            accountHistoryFrame.setResizable(true);
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: create transaction history panels to the transaction history page
+    private void createPanelsForTransactionHistory(JFrame accountHistoryFrame, JLabel date, JLabel username,
+                                                   JLabel accountType, JLabel transactionType, JLabel amount) {
+        JPanel datePanel = initJPanel(20);
+
+        addTransactionHistoryPanels(accountHistoryFrame, date, datePanel);
+
+        JPanel usernamePanel = initJPanel(20);
+        addTransactionHistoryPanels(accountHistoryFrame, username, usernamePanel);
+
+        JPanel accountTypePanel = initJPanel(20);
+        addTransactionHistoryPanels(accountHistoryFrame, accountType, accountTypePanel);
+
+        JPanel transactionTypePanel = initJPanel(20);
+        addTransactionHistoryPanels(accountHistoryFrame, transactionType, transactionTypePanel);
+
+        JPanel amountPanel = initJPanel(20);
+        addTransactionHistoryPanels(accountHistoryFrame, amount, amountPanel);
+
+        JPanel spacePanel = initJPanel(20);
+        addTransactionHistoryPanels(accountHistoryFrame, new JLabel(""), spacePanel);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add transaction history panels to the transaction history page
+    private void addTransactionHistoryPanels(JFrame accountHistoryFrame, JLabel label, JPanel panel) {
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 110, 0));
+        panel.add(label);
+        accountHistoryFrame.add(panel);
     }
 
     // MODIFIES: this
     // EFFECTS: render all the transaction history associated with the account
     private void displayAllTransactionHistory(List<TransactionRecord> records) {
-        JFrame allHistoryFrame = new JFrame("Transaction history of your chequing and saving account");
+        JFrame allHistoryFrame = new JFrame("Transaction history of your account");
         allHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        allHistoryFrame.setPreferredSize(new Dimension(WINDOW_WIDTH, 400));
+        allHistoryFrame.setPreferredSize(new Dimension(400, 1000));
         ((JPanel) allHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         allHistoryFrame.setLayout(new FlowLayout());
 
         renderTransactionHistory(records, allHistoryFrame);
     }
+
 }
