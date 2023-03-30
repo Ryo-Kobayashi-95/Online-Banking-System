@@ -37,12 +37,13 @@ and transaction history associated with each account to file
 - As a user, I want to be able to load the list of accounts and transaction history from file
 
 #### *Instructions for Grader*:
-- You can generate the first required action related to adding a new account to the account 
-list by clicking the "Create" button.
-  - After logging into the account, you can perform transactions with the "Deposit" and "Withdraw" buttons.
+- You can generate the first required action related to creating a new account by clicking the "Create" button in 
+the main menu. After logging into the account, you will be directed to the account menu, where you can perform 
+transactions with the "Deposit" and "Withdraw" buttons, and those transaction histories are added to the account. 
 - You can generate the second required action related to displaying transaction history with options for the user to 
-filter the history; show all history, deposit account history, or saving account history. You can select the 
-option from the dropdown box and clicking the "View transaction history" button.
+filter; show all history, deposit account history, or saving account history. You can select the 
+option from the dropdown box and click the "View transaction history" button to see all or selected account 
+transaction history.
 - You can locate my visual component by running the application. It appears on the splash screen.
 - You can save the state of my application by clicking the "Save" button in the main menu.
 - You can reload the state of my application by clicking the "Load" button in the main menu.

@@ -17,13 +17,16 @@ import java.io.IOException;
 public class MainMenuGUI extends JFrame implements ActionListener {
 
     private static JTextField nameField;
-    private static JTextField passwordField;
+    private static JPasswordField passwordField;
     private static JLabel userMessageLabel;
+    private static JLabel errorMessageLabel;
 
     private static final String JSON_STORE = "./data/bank.json";
     private Bank list;
     private final JsonWriter jsonWriter;
     private final JsonReader jsonReader;
+
+    private static final int WINDOW_WIDTH = 1000;
 
     // MODIFIES: this
     // EFFECTS: Constructor runs the online baking system and sets up all the fields,
@@ -37,7 +40,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         runSystem();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(700, 400));
+        setPreferredSize(new Dimension(WINDOW_WIDTH, 400));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new FlowLayout());
 
@@ -47,18 +50,34 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         JButton loadBtn = createButtons("Load", "load");
 
         createFields();
+        createMainMenuButtons(createBtn, loginBtn, saveBtn, loadBtn);
 
-        add(createBtn);
-        add(loginBtn);
-        add(saveBtn);
-        add(loadBtn);
+        createMessage();
 
-        userMessageLabel = new JLabel("");
-        add(userMessageLabel);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: insert user message for successful user command, and error message for erroneous user command
+    private void createMessage() {
+        userMessageLabel = new JLabel("");
+        add(userMessageLabel);
+
+        errorMessageLabel = new JLabel("");
+        errorMessageLabel.setForeground(Color.RED);
+        add(errorMessageLabel);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add buttons to the main menu
+    private void createMainMenuButtons(JButton createBtn, JButton loginBtn, JButton saveBtn, JButton loadBtn) {
+        add(createBtn);
+        add(loginBtn);
+        add(saveBtn);
+        add(loadBtn);
     }
 
     // REQUIRES: both buttonName and key must at least one character long
@@ -74,13 +93,16 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: create and render fields in the main menu
     private void createFields() {
-        JLabel userNameLabel = new JLabel("Username");
+
+        JLabel userNameLabel = new JLabel("Username:");
+        userNameLabel.setBounds(10, 10, WINDOW_WIDTH, 30);
         nameField = new JTextField(15);
         add(userNameLabel);
         add(nameField);
 
-        JLabel passwordLabel = new JLabel("Password");
-        passwordField = new JTextField(15);
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordField = new JPasswordField(15);
+
         add(passwordLabel);
         add(passwordField);
     }
@@ -103,6 +125,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("create")) {
             createAccount(name, password);
         } else if (e.getActionCommand().equals("login")) {
+            userMessageLabel.setText(" ");
+            errorMessageLabel.setText(" ");
             loginToAccount(name, password);
         } else if (e.getActionCommand().equals("save")) {
             saveBank();
@@ -129,27 +153,22 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         String passStr = Integer.toString(pass);
         int size = passStr.length();
 
-//      TODO: show an error message for invalid password in red color
+        if (size != 4) {
+            userMessageLabel.setText("");
+            errorMessageLabel.setText("Invalid password. Password must be 4 digits long. Please try again.");
+        } else {
+            Account account = new Account(name, pass);
+            list.addAccount(account);
 
-        while (size != 4) {
-            userMessageLabel.setText("Invalid password. Password must be 4 digits long. Please try again.");
-            pass = Integer.parseInt(passwordField.getText());
-            passStr = Integer.toString(pass);
-            size = passStr.length();
+            errorMessageLabel.setText("");
+            userMessageLabel.setText("You are all set! "
+                    + "\nPlease login to your account if you wish to perform transaction!");
         }
-
-        Account account = new Account(name, pass);
-        list.addAccount(account);
-
-        userMessageLabel.setText("You are all set! "
-                + "\nPlease login to your account if you wish to perform transaction!");
     }
 
     // MODIFIES: this
     // EFFECTS: login to the existing account
     public void loginToAccount(String name, int pass) {
-
-//      TODO: accept the lower case too
 
         Account account = list.getAccount(name, pass);
         if (account == null) {
@@ -165,8 +184,9 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // EFFECTS: handle a situation where given username and/or password not found in the account list.
     //          ask to re-enter or go back to the main menu
     public void noAccountHandler() {
-//      TODO: show an error message in red color
-        userMessageLabel.setText("There is no account with the given username and/or password." + "\n"
+        userMessageLabel.setText("");
+        errorMessageLabel.setText("There is no account with the given username and/or password. "
+                + "Recall that username is case sensitive. " + "\n"
                 + "Please try again");
     }
 
@@ -177,9 +197,11 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             jsonWriter.open();
             jsonWriter.write(list);
             jsonWriter.close();
+            errorMessageLabel.setText("");
             userMessageLabel.setText("Saved account to " + JSON_STORE);
         } catch (FileNotFoundException e) {
-            userMessageLabel.setText("Unable to write to file: " + JSON_STORE);
+            userMessageLabel.setText("");
+            errorMessageLabel.setText("Unable to write to file: " + JSON_STORE);
         }
     }
 
@@ -188,9 +210,11 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     private void loadBank() {
         try {
             list = jsonReader.read();
+            errorMessageLabel.setText("");
             userMessageLabel.setText("Loaded account from " + JSON_STORE);
         } catch (IOException e) {
-            userMessageLabel.setText("Unable to read from file: " + JSON_STORE);
+            userMessageLabel.setText("");
+            errorMessageLabel.setText("Unable to read from file: " + JSON_STORE);
         }
     }
 }
