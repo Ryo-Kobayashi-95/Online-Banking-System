@@ -197,7 +197,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: create a new account. Ask the user to re-enter if the password length is not 4
     public void createAccount(String name, int pass) {
-        String passStr = Integer.toString(pass);
+        String passStr = String.format("%04d", pass);;
         int size = passStr.length();
 
         if (size != 4) {
