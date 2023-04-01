@@ -20,7 +20,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     private static final JLabel depositMessageLabel = new JLabel("");
     private static final JLabel withdrawMessageLabel = new JLabel("");
     private static final JLabel balanceMessageLabel = new JLabel("");
-    private static final JLabel transactionHistoryLabel = new JLabel("");
+    private static final JLabel transactionHistoryLabel = new JLabel("Transaction history page will pop up...");
     private static JComboBox<String> comboBoxHistory;
     private static JComboBox<String> comboBoxDeposit;
     private final JFrame previousFrame;
@@ -109,9 +109,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         createTransactionHistoryLayout(vtBtn);
         transactionHistoryMessage = addMessagePanels(transactionHistoryLabel);
 
-        JPanel spaceLabel = initJPanel(PANEL_HEIGHT);
-        add(spaceLabel.add(new JLabel("")));
-        JPanel backButtonPanel = initJPanel(PANEL_HEIGHT);
+        JPanel backButtonPanel = initJPanel(60);
+        backButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 30));
         backButtonPanel.add(backButton);
         add(backButtonPanel);
     }
@@ -260,7 +259,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
             depositMessageLabel.setText("");
             withdrawMessageLabel.setText("");
             balanceMessageLabel.setText("");
-            transactionHistoryLabel.setText("");
+            transactionHistoryLabel.setForeground(Color.BLACK);
+            transactionHistoryLabel.setText("Transaction history page will pop up...");
             this.dispose();
             previousFrame.setVisible(true);
         }
@@ -289,22 +289,28 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // EFFECTS: perform a deposit transaction; put the money in to the chequing or saving account,
     //          or ask to re-enter the amount if it is invalid (amount < 0)
     public void depositMoney(String accountType) {
-        double depositAmount = Integer.parseInt(depositField.getText());
-        if (depositAmount < 0) {
-            depositMessageLabel.setText("Invalid amount. Please try again");
+        if (depositField.getText().equals("")) {
+            depositMessageLabel.setText("Please enter the amount");
             depositMessageLabel.setForeground(Color.RED);
             depositMessage.add(depositMessageLabel);
         } else {
-            account.deposit(accountType, depositAmount);
-            if (accountType.equals("c")) {
-                depositMessageLabel.setText("$" + depositAmount
-                        + " deposited into your chequing account successfully!");
+            double depositAmount = Integer.parseInt(depositField.getText());
+            if (depositAmount <= 0) {
+                depositMessageLabel.setText("Invalid amount. Please try again");
+                depositMessageLabel.setForeground(Color.RED);
+                depositMessage.add(depositMessageLabel);
             } else {
-                depositMessageLabel.setText("$" + depositAmount
-                        + " deposited into your saving account successfully!");
+                account.deposit(accountType, depositAmount);
+                if (accountType.equals("c")) {
+                    depositMessageLabel.setText("$" + depositAmount
+                            + " deposited into your chequing account successfully!");
+                } else {
+                    depositMessageLabel.setText("$" + depositAmount
+                            + " deposited into your saving account successfully!");
+                }
+                depositMessageLabel.setForeground(Color.BLACK);
+                depositMessage.add(depositMessageLabel);
             }
-            depositMessageLabel.setForeground(Color.BLACK);
-            depositMessage.add(depositMessageLabel);
         }
     }
 
@@ -312,22 +318,28 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // EFFECTS: perform a withdrawal transaction. Subtract the money from the chequing,
     //          or ask the user to re-enter the amount if amount < 0 or amount > account.getChequingBalance()
     public void withdrawMoney() {
-        double withdrawAmount = Integer.parseInt(withdrawField.getText());
-        if (withdrawAmount > account.getChequingBalance()) {
-            withdrawMessageLabel.setText("Insufficient balance in your chequing account. Please try again");
-            withdrawMessageLabel.setForeground(Color.RED);
-            withdrawMessage.add(withdrawMessageLabel);
-        } else if (withdrawAmount < 0) {
-            withdrawMessageLabel.setText("Invalid amount. Please try again");
+        if (withdrawField.getText().equals("")) {
+            withdrawMessageLabel.setText("Please enter the amount");
             withdrawMessageLabel.setForeground(Color.RED);
             withdrawMessage.add(withdrawMessageLabel);
         } else {
-            account.withdraw("c", withdrawAmount);
-            double balance = account.getChequingBalance();
-            withdrawMessageLabel.setText("The transaction was successful! Balance in your chequing account: $"
-                    + balance);
-            withdrawMessageLabel.setForeground(Color.BLACK);
-            withdrawMessage.add(withdrawMessageLabel);
+            double withdrawAmount = Integer.parseInt(withdrawField.getText());
+            if (withdrawAmount > account.getChequingBalance()) {
+                withdrawMessageLabel.setText("Insufficient balance in your chequing account. Please try again");
+                withdrawMessageLabel.setForeground(Color.RED);
+                withdrawMessage.add(withdrawMessageLabel);
+            } else if (withdrawAmount <= 0) {
+                withdrawMessageLabel.setText("Invalid amount. Please try again");
+                withdrawMessageLabel.setForeground(Color.RED);
+                withdrawMessage.add(withdrawMessageLabel);
+            } else {
+                account.withdraw("c", withdrawAmount);
+                double balance = account.getChequingBalance();
+                withdrawMessageLabel.setText("The transaction was successful! Balance in your chequing account: $"
+                        + balance);
+                withdrawMessageLabel.setForeground(Color.BLACK);
+                withdrawMessage.add(withdrawMessageLabel);
+            }
         }
     }
 
@@ -374,10 +386,15 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: return true if the given list of records is empty, or false otherwise
-    private boolean checkIsNotEmptyRecords(List<TransactionRecord> records) {
+    private boolean checkIsNotEmptyRecords(List<TransactionRecord> records, String accountType) {
         if (records.isEmpty()) {
-            transactionHistoryLabel.setText("No transaction history on this account");
             transactionHistoryLabel.setForeground(Color.RED);
+            if (accountType.equals("all")) {
+                transactionHistoryLabel.setText("No transaction history on your chequing and saving accounts");
+            } else {
+                transactionHistoryLabel.setText("No transaction history on your "
+                        + accountType.toLowerCase() + " account");
+            }
             transactionHistoryMessage.add(transactionHistoryLabel);
             return false;
         }
@@ -411,13 +428,13 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
         for (TransactionRecord tr : records) {
             if (tr.getAccountType().equals(account)) {
-
                 accountRecords.add(tr);
             }
         }
 
-        if (checkIsNotEmptyRecords(accountRecords)) {
-            transactionHistoryLabel.setText("");
+        if (checkIsNotEmptyRecords(accountRecords, account)) {
+            transactionHistoryLabel.setForeground(Color.BLACK);
+            transactionHistoryLabel.setText("Transaction history page will pop up...");
             transactionHistoryMessage.add(transactionHistoryLabel);
             renderTransactionHistory(accountRecords, accountHistoryFrame);
         }
@@ -478,8 +495,9 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         ((JPanel) allHistoryFrame.getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         allHistoryFrame.setLayout(new FlowLayout());
 
-        if (checkIsNotEmptyRecords(records)) {
-            transactionHistoryLabel.setText("");
+        if (checkIsNotEmptyRecords(records, "all")) {
+            transactionHistoryLabel.setForeground(Color.BLACK);
+            transactionHistoryLabel.setText("Transaction history page will pop up...");
             transactionHistoryMessage.add(transactionHistoryLabel);
             renderTransactionHistory(records, allHistoryFrame);
         }

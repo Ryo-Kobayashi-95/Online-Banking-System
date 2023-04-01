@@ -43,8 +43,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         runSystem();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(WINDOW_WIDTH, 380));
-        ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+        setPreferredSize(new Dimension(WINDOW_WIDTH, 620));
+        ((JPanel) getContentPane()).setBorder(new EmptyBorder(0, 13, 13, 13));
         setLayout(new FlowLayout());
 
         JButton createBtn = createButtons("Create", "create");
@@ -52,7 +52,9 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         JButton saveBtn = createButtons("Save", "save");
         JButton loadBtn = createButtons("Load", "load");
 
-        JPanel fixedMessagePanel1 = createFixedMessage("Please enter the username and password");
+        JPanel fixedMessagePanel1 = createFixedMessage("Please enter the username and password", 20);
+
+        createTopBord();
 
         add(fixedMessagePanel1);
         createFields();
@@ -64,10 +66,18 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         setResizable(false);
     }
 
+    private void createTopBord() {
+        JPanel panel = new TopBordPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        panel.setPreferredSize(new Dimension(WINDOW_WIDTH, 200));
+        panel.setBounds(10, 10, WINDOW_WIDTH, 300);
+        add(panel);
+    }
+
     // MODIFIES: this
     // EFFECTS: initialise and render constant message panel in this frame
-    private JPanel createFixedMessage(String text) {
-        JPanel fixedMessagePanel = initJPanel(20);
+    private JPanel createFixedMessage(String text, int height) {
+        JPanel fixedMessagePanel = initJPanel(height);
         JLabel message = new JLabel(text);
         message.setBounds(10, 10, WINDOW_WIDTH, PANEL_HEIGHT);
         message.setFont(new Font("", Font.BOLD, 13));
@@ -87,10 +97,10 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: insert user message for successful user command, and error message for erroneous user command
-    private JPanel createResponseMessage(JLabel message) {
-        JPanel messagePanel = initJPanel(PANEL_HEIGHT);
+    private JPanel createResponseMessage(JLabel message, int height) {
+        JPanel messagePanel = initJPanel(height);
         messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
-        messagePanel.setPreferredSize(new Dimension(WINDOW_WIDTH, 40));
+        messagePanel.setPreferredSize(new Dimension(WINDOW_WIDTH, 80));
         messagePanel.add(message);
         return messagePanel;
     }
@@ -99,11 +109,13 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // EFFECTS: add buttons to the main menu
     private void createMainMenuButtons(JButton createBtn, JButton loginBtn, JButton saveBtn, JButton loadBtn) {
 
-        JPanel fixedMessagePanel2 = createFixedMessage("Please click 'Save' to save the transaction, ");
-        JPanel fixedMessagePanel3 = createFixedMessage("or click 'Load' to retrieve previous transaction");
+        JPanel fixedMessagePanel2 = createFixedMessage("Please click 'Save' to save the transaction, ",
+                13);
+        JPanel fixedMessagePanel3 = createFixedMessage("or click 'Load' to retrieve previous transaction",
+                20);
 
         JPanel buttons1Panel = initJPanel(50);
-        JPanel buttons2Panel = initJPanel(50);
+        JPanel buttons2Panel = initJPanel(40);
 
         buttons1Panel.add(createBtn);
         buttons1Panel.add(loginBtn);
@@ -111,14 +123,15 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         buttons2Panel.add(saveBtn);
         buttons2Panel.add(loadBtn);
 
-        responsePanel1 = createResponseMessage(messageLabel1);
-        responsePanel2 = createResponseMessage(messageLabel2);
+        responsePanel1 = createResponseMessage(messageLabel1, 100);
+        responsePanel2 = createResponseMessage(messageLabel2, PANEL_HEIGHT);
         add(buttons1Panel);
         add(responsePanel1);
         add(fixedMessagePanel2);
         add(fixedMessagePanel3);
         add(buttons2Panel);
         add(responsePanel2);
+
     }
 
     // REQUIRES: both buttonName and key must at least one character long
@@ -164,21 +177,22 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String name = nameField.getText();
-        String pass = passwordField.getText();
+        String password = passwordField.getText();
 
-        int password = 0;
-        if (!pass.isEmpty()) {
-            password = Integer.parseInt(passwordField.getText());
-        }
-
-        if (e.getActionCommand().equals("create")) {
-            createAccount(name, password);
-        } else if (e.getActionCommand().equals("login")) {
-            loginToAccount(name, password);
-        } else if (e.getActionCommand().equals("save")) {
-            saveBank();
-        } else if (e.getActionCommand().equals("load")) {
-            loadBank();
+        if (name.equals("") || password.equals("")) {
+            messageLabel1.setText("Please enter your username and/or password");
+            messageLabel1.setForeground(Color.RED);
+            responsePanel1.add(messageLabel1);
+        } else {
+            if (e.getActionCommand().equals("create")) {
+                createAccount(name, password);
+            } else if (e.getActionCommand().equals("login")) {
+                loginToAccount(name, password);
+            } else if (e.getActionCommand().equals("save")) {
+                saveBank();
+            } else if (e.getActionCommand().equals("load")) {
+                loadBank();
+            }
         }
     }
 
@@ -196,9 +210,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: create a new account. Ask the user to re-enter if the password length is not 4
-    public void createAccount(String name, int pass) {
-        String passStr = String.format("%04d", pass);;
-        int size = passStr.length();
+    public void createAccount(String name, String pass) {
+        int size = pass.length();
 
         if (size != 4) {
             messageLabel1.setText("Invalid password. Password must be 4 digits long. Please try again.");
@@ -216,7 +229,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: login to the existing account
-    public void loginToAccount(String name, int pass) {
+    public void loginToAccount(String name, String pass) {
         messageLabel1.setText("Let's see what we can do...");
         messageLabel1.setForeground(Color.BLACK);
         responsePanel1.add(messageLabel1);

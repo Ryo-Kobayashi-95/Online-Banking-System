@@ -64,7 +64,7 @@ public class JsonReader {
     // EFFECTS: parses account from JSON object and adds it to bank
     private void addAccount(Bank bank, JSONObject jsonObject) {
         String name = jsonObject.getString("username");
-        int password = jsonObject.getInt("password");
+        String password = jsonObject.getString("password");
 
         Account account = new Account(name, password);
 

@@ -47,11 +47,11 @@ class JsonWriterTest extends JsonTest {
     void testWriterGeneralBank() {
         try {
             Bank bank = new Bank();
-            bank.addAccount(new Account("Ryo", 1234));
-            bank.addAccount(new Account("Justin", 5678));
+            bank.addAccount(new Account("Ryo", "1234"));
+            bank.addAccount(new Account("Justin", "5678"));
 
-            Account a1 = bank.getAccount("Ryo", 1234);
-            Account a2 = bank.getAccount("Justin", 5678);
+            Account a1 = bank.getAccount("Ryo", "1234");
+            Account a2 = bank.getAccount("Justin", "5678");
 
             a1.deposit("c",1000);
             a2.deposit("s", 222);
@@ -68,9 +68,9 @@ class JsonWriterTest extends JsonTest {
             bank = reader.read();
             assertEquals(2, bank.length());
 
-            checkAccount("Ryo", 1234, 1000, 0,
+            checkAccount("Ryo", "1234", 1000, 0,
                     "Ryo", "Chequing", "Deposit", 1000, a1, t1);
-            checkAccount("Justin", 5678, 0, 222,
+            checkAccount("Justin", "5678", 0, 222,
                     "Justin", "Saving", "Deposit", 222, a2, t2);
         } catch (IOException e) {
             fail("Exception should not have been thrown");

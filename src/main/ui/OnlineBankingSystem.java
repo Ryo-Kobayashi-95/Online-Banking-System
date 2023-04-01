@@ -79,16 +79,22 @@ public class OnlineBankingSystem {
     // MODIFIES: this
     // EFFECTS: perform the user request in the main menu
     public void performMainRequest(String request) {
-        if (request.equals("a")) {
-            createAccount();
-        } else if (request.equals("l")) {
-            loginToAccount();
-        } else if (request.equals("1")) {
-            saveBank();
-        } else if (request.equals("2")) {
-            loadBank();
-        } else {
-            System.out.println("\nInvalid request, please try again");
+        switch (request) {
+            case "a":
+                createAccount();
+                break;
+            case "l":
+                loginToAccount();
+                break;
+            case "1":
+                saveBank();
+                break;
+            case "2":
+                loadBank();
+                break;
+            default:
+                System.out.println("\nInvalid request, please try again");
+                break;
         }
     }
 
@@ -99,15 +105,13 @@ public class OnlineBankingSystem {
         System.out.println("Username:");
         String name = input.next();
         System.out.println("Password (must be in 4 digits):");
-        int pass = input.nextInt();
-        String passStr = Integer.toString(pass);
-        int size = passStr.length();
+        String pass = input.next();
+        int size = pass.length();
 
         while (size != 4) {
             System.out.println("Invalid password. Password must be 4 digits long. Please try again.");
-            pass = input.nextInt();
-            passStr = Integer.toString(pass);
-            size = passStr.length();
+            pass = input.next();
+            size = pass.length();
         }
 
         Account account = new Account(name, pass);
@@ -125,7 +129,7 @@ public class OnlineBankingSystem {
         System.out.println("Username:");
         String name = input.next();
         System.out.println("Password (must be in 4 digits):");
-        int pass = input.nextInt();
+        String pass = input.next();
 
         Account account = list.getAccount(name, pass);
         if (account == null) {
@@ -195,25 +199,33 @@ public class OnlineBankingSystem {
         boolean keepGoing = true;
 
         while (keepGoing) {
-            if (request.equals("d")) {
-                keepGoing = false;
-                depositMoney(account);
-            } else if (request.equals("w")) {
-                keepGoing = false;
-                withdrawMoney(account);
-            } else if (request.equals("vc")) {
-                keepGoing = false;
-                displayChequingBalance(account);
-            } else if (request.equals("vs")) {
-                keepGoing = false;
-                displaySavingBalance(account);
-            } else if (request.equals("h")) {
-                keepGoing = false;
-                displayTransactionHistory(account);
-            } else if (request.equals("b")) {
-                keepGoing = false;
-            } else {
-                System.out.println("\nInvalid request, please try again");
+            switch (request) {
+                case "d":
+                    keepGoing = false;
+                    depositMoney(account);
+                    break;
+                case "w":
+                    keepGoing = false;
+                    withdrawMoney(account);
+                    break;
+                case "vc":
+                    keepGoing = false;
+                    displayChequingBalance(account);
+                    break;
+                case "vs":
+                    keepGoing = false;
+                    displaySavingBalance(account);
+                    break;
+                case "h":
+                    keepGoing = false;
+                    displayTransactionHistory(account);
+                    break;
+                case "b":
+                    keepGoing = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid request, please try again");
+                    break;
             }
         }
     }

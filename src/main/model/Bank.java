@@ -27,10 +27,10 @@ public class Bank implements Writable {
     }
 
     // EFFECTS: return the account with the given username and password
-    public Account getAccount(String username, int password) {
+    public Account getAccount(String username, String password) {
 
         for (Account a: accounts) {
-            if (a.getName().equals(username) && a.getPassword() == password) {
+            if (a.getName().equals(username) && a.getPassword().equals(password)) {
                 return a;
             }
         }

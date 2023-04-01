@@ -11,8 +11,7 @@ public class SplashScreenGUI extends JFrame {
         setUndecorated(true);
         setSize(700, 394);
         setLocationRelativeTo(null);
-        setContentPane(new JLabel(new ImageIcon("/Users/ryo/Library/Mobile "
-                + "Documents/com~apple~CloudDocs/CPSC 210/project_a7g2f/data/UBC_picture.jpg")));
+        setContentPane(new JLabel(new ImageIcon("data/UBC_picture.jpg")));
         setVisible(true);
         try {
             Thread.sleep(3000);

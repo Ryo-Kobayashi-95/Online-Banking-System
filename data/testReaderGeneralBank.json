@@ -1,6 +1,6 @@
 {"accounts": [
   {
-    "password": 1234,
+    "password": "1234",
     "savingBalance": 0,
     "chequingBalance": 1000,
     "transactionHistory": [{
@@ -13,7 +13,7 @@
     "username": "Ryo"
   },
   {
-    "password": 5678,
+    "password": "5678",
     "savingBalance": 222,
     "chequingBalance": 0,
     "transactionHistory": [{

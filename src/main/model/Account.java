@@ -15,7 +15,7 @@ import java.util.List;
 public class Account implements Writable {
 
     private String username;
-    private int password;
+    private String password;
     private double chequingBalance;
     private double savingBalance;
     private final List<TransactionRecord> transactionHistory;
@@ -25,7 +25,7 @@ public class Account implements Writable {
     //           username and password must be unique, meaning no duplicates in the ListOfAccounts
     // EFFECTS: create an account with username, password,
     //          zero initial balance for chequing & saving, and empty transactionHistory
-    public Account(String username, int password) {
+    public Account(String username, String password) {
         this.username = username;
         this.password = password;
         this.chequingBalance = 0;
@@ -37,7 +37,7 @@ public class Account implements Writable {
         return this.username;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return this.password;
     }
 
@@ -45,7 +45,7 @@ public class Account implements Writable {
         this.username = username;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

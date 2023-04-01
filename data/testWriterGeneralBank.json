@@ -1,11 +1,11 @@
 {"accounts": [
     {
-        "password": 1234,
+        "password": "1234",
         "savingBalance": 0,
         "chequingBalance": 1000,
         "transactionHistory": [{
             "transactionType": "Deposit",
-            "date": "Thu Mar 30 17:01:14 PDT 2023",
+            "date": "Fri Mar 31 16:38:40 PDT 2023",
             "accountType": "Chequing",
             "transactionAmount": 1000,
             "username": "Ryo"
@@ -13,12 +13,12 @@
         "username": "Ryo"
     },
     {
-        "password": 5678,
+        "password": "5678",
         "savingBalance": 222,
         "chequingBalance": 0,
         "transactionHistory": [{
             "transactionType": "Deposit",
-            "date": "Thu Mar 30 17:01:14 PDT 2023",
+            "date": "Fri Mar 31 16:38:40 PDT 2023",
             "accountType": "Saving",
             "transactionAmount": 222,
             "username": "Justin"

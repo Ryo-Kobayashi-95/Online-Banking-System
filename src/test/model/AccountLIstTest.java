@@ -17,9 +17,9 @@ public class AccountLIstTest {
     @BeforeEach
     void setUp() {
         this.accounts = new Bank();
-        this.a1 = new Account("James", 1234);
-        this.a2 = new Account("Justin", 5678);
-        this.a3 = new Account("Julia", 9876);
+        this.a1 = new Account("James", "1234");
+        this.a2 = new Account("Justin", "5678");
+        this.a3 = new Account("Julia", "9876");
     }
 
     @Test
@@ -43,14 +43,14 @@ public class AccountLIstTest {
         accounts.addAccount(a2);
         accounts.addAccount(a3);
 
-        assertEquals(a1, accounts.getAccount("James", 1234));
-        assertEquals(a2, accounts.getAccount("Justin", 5678));
-        assertEquals(a3, accounts.getAccount("Julia", 9876));
+        assertEquals(a1, accounts.getAccount("James", "1234"));
+        assertEquals(a2, accounts.getAccount("Justin", "5678"));
+        assertEquals(a3, accounts.getAccount("Julia", "9876"));
 
-        assertNull(accounts.getAccount("Julia", 2525));
-        assertNull(accounts.getAccount("fkf", 1234));
-        assertNull(accounts.getAccount("Justin", 1235));
-        assertNull(accounts.getAccount("Justi", 1234));
+        assertNull(accounts.getAccount("Julia", "2525"));
+        assertNull(accounts.getAccount("fkf", "1234"));
+        assertNull(accounts.getAccount("Justin", "1235"));
+        assertNull(accounts.getAccount("Justi", "1234"));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class AccountLIstTest {
 
     @Test
     void testSetPassword() {
-        a1.setPassword(4321);
-        assertEquals(4321, a1.getPassword());
+        a1.setPassword("4321");
+        assertEquals("4321", a1.getPassword());
     }
 }

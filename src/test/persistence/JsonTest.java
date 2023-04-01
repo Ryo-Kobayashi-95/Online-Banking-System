@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 // Citation:
 // Source: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 public class JsonTest {
-    protected void  checkAccount(String username, int password, double chequingBalance, double savingBalance,
+    protected void  checkAccount(String username, String password, double chequingBalance, double savingBalance,
                                  String tUsername, String accountType, String transactionType,
                                  double transactionAmount, Account account, TransactionRecord record) {
         assertEquals(username, account.getName());

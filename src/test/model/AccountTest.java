@@ -11,13 +11,13 @@ public class AccountTest {
 
     @BeforeEach
     void setUp() {
-        a1 = new Account("James", 1234);
+        a1 = new Account("James", "1234");
     }
 
     @Test
     void testAccount() {
         assertEquals("James", a1.getName());
-        assertEquals(1234, a1.getPassword());
+        assertEquals("1234", a1.getPassword());
         assertEquals(0, a1.getChequingBalance());
         assertEquals(0, a1.getSavingBalance());
         assertEquals(0, a1.getTransactionHistory().size());
