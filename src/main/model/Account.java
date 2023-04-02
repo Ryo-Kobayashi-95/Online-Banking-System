@@ -31,6 +31,9 @@ public class Account implements Writable {
         this.chequingBalance = 0;
         this.savingBalance = 0;
         this.transactionHistory = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("A new account created with the following details\n"
+                + "- Username: " + this.username
+                + "\n- Password: " + this.password));
     }
 
     public String getName() {
@@ -78,11 +81,24 @@ public class Account implements Writable {
             this.chequingBalance += amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
                     "Deposit", dateStr, amount));
+            logAddingTransactionEvent("Chequing", "Deposit", dateStr, amount);
         } else {
             this.savingBalance += amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
                     "Deposit", dateStr, amount));
+            logAddingTransactionEvent("Saving", "Deposit", dateStr, amount);
         }
+    }
+
+    // EFFECTS: log a transaction event
+    private void logAddingTransactionEvent(String accountType, String transactionType, String dateStr, double amount) {
+        EventLog.getInstance().logEvent(new Event("Transaction history added to account with the "
+                + "following details\n"
+                + "- Transaction date: " + dateStr
+                + "\n- Username:         " + this.username
+                + "\n- Account type:     " + accountType
+                + "\n- Transaction type: " + transactionType
+                + "\n- Amount:           $" + amount));
     }
 
     // MODIFIES: this
@@ -94,10 +110,12 @@ public class Account implements Writable {
             this.chequingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Chequing",
                     "Withdraw", dateStr, -amount));
+            logAddingTransactionEvent("Chequing", "Withdraw", dateStr, -amount);
         } else {
             this.savingBalance -= amount;
             this.transactionHistory.add(new TransactionRecord(this.username, "Saving",
                     "Withdraw", dateStr, -amount));
+            logAddingTransactionEvent("Saving", "Withdraw", dateStr, -amount);
         }
     }
 

@@ -2,6 +2,8 @@ package ui;
 
 import model.Account;
 import model.Bank;
+import model.Event;
+import model.EventLog;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -10,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -30,6 +33,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
     private static final int WINDOW_WIDTH = 460;
     private static final int PANEL_HEIGHT = 30;
+
 
     // MODIFIES: this
     // EFFECTS: Constructor runs the online baking system and sets up all the fields,
@@ -64,6 +68,27 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+
+        printLogEvent();
+    }
+
+    // EFFECTS: add window listener and print logged events
+    private void printLogEvent() {
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                printLog(EventLog.getInstance());
+            }
+        });
+    }
+
+    // EFFECTS: print logged events to console
+    public void printLog(EventLog el) {
+        for (Event next : el) {
+            System.out.println("\n" + next);
+        }
+
+        repaint();
     }
 
     // MODIFIES: this

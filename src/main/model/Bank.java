@@ -24,6 +24,7 @@ public class Bank implements Writable {
     // EFFECTS: add account to the list
     public void addAccount(Account account) {
         this.accounts.add(account);
+        EventLog.getInstance().logEvent(new Event("Account added to the list"));
     }
 
     // EFFECTS: return the account with the given username and password

@@ -1,29 +1,13 @@
 {"accounts": [{
     "password": "1234",
-    "savingBalance": 10000,
-    "chequingBalance": 9999,
-    "transactionHistory": [
-        {
-            "transactionType": "Deposit",
-            "date": "Sat Apr 01 19:32:54 PDT 2023",
-            "accountType": "Chequing",
-            "transactionAmount": 10000,
-            "username": "Ryo"
-        },
-        {
-            "transactionType": "Deposit",
-            "date": "Sat Apr 01 19:32:57 PDT 2023",
-            "accountType": "Saving",
-            "transactionAmount": 10000,
-            "username": "Ryo"
-        },
-        {
-            "transactionType": "Withdraw",
-            "date": "Sat Apr 01 19:33:17 PDT 2023",
-            "accountType": "Chequing",
-            "transactionAmount": -1,
-            "username": "Ryo"
-        }
-    ],
+    "savingBalance": 0,
+    "chequingBalance": 1111,
+    "transactionHistory": [{
+        "transactionType": "Deposit",
+        "date": "Sat Apr 01 21:59:25 PDT 2023",
+        "accountType": "Chequing",
+        "transactionAmount": 1111,
+        "username": "Ryo"
+    }],
     "username": "Ryo"
 }]}
