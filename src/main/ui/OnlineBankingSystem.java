@@ -199,33 +199,25 @@ public class OnlineBankingSystem {
         boolean keepGoing = true;
 
         while (keepGoing) {
-            switch (request) {
-                case "d":
-                    keepGoing = false;
-                    depositMoney(account);
-                    break;
-                case "w":
-                    keepGoing = false;
-                    withdrawMoney(account);
-                    break;
-                case "vc":
-                    keepGoing = false;
-                    displayChequingBalance(account);
-                    break;
-                case "vs":
-                    keepGoing = false;
-                    displaySavingBalance(account);
-                    break;
-                case "h":
-                    keepGoing = false;
-                    displayTransactionHistory(account);
-                    break;
-                case "b":
-                    keepGoing = false;
-                    break;
-                default:
-                    System.out.println("\nInvalid request, please try again");
-                    break;
+            if (request.equals("d")) {
+                keepGoing = false;
+                depositMoney(account);
+            } else if (request.equals("w")) {
+                keepGoing = false;
+                withdrawMoney(account);
+            } else if (request.equals("vc")) {
+                keepGoing = false;
+                displayChequingBalance(account);
+            } else if (request.equals("vs")) {
+                keepGoing = false;
+                displaySavingBalance(account);
+            } else if (request.equals("h")) {
+                keepGoing = false;
+                displayTransactionHistory(account);
+            } else if (request.equals("b")) {
+                keepGoing = false;
+            } else {
+                System.out.println("\nInvalid request, please try again");
             }
         }
     }

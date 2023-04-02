@@ -66,6 +66,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         setResizable(false);
     }
 
+    // MODIFIES: this
+    // EFFECTS: render the image on the top of the main menu frame
     private void createTopBord() {
         JPanel panel = new TopBordPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
@@ -96,8 +98,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: insert user message for successful user command, and error message for erroneous user command
-    private JPanel createResponseMessage(JLabel message, int height) {
+    // EFFECTS: create a panel for a response message
+    private JPanel createResponseMessagePanel(JLabel message, int height) {
         JPanel messagePanel = initJPanel(height);
         messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
         messagePanel.setPreferredSize(new Dimension(WINDOW_WIDTH, 80));
@@ -123,15 +125,14 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         buttons2Panel.add(saveBtn);
         buttons2Panel.add(loadBtn);
 
-        responsePanel1 = createResponseMessage(messageLabel1, 100);
-        responsePanel2 = createResponseMessage(messageLabel2, PANEL_HEIGHT);
+        responsePanel1 = createResponseMessagePanel(messageLabel1, 100);
+        responsePanel2 = createResponseMessagePanel(messageLabel2, PANEL_HEIGHT);
         add(buttons1Panel);
         add(responsePanel1);
         add(fixedMessagePanel2);
         add(fixedMessagePanel3);
         add(buttons2Panel);
         add(responsePanel2);
-
     }
 
     // REQUIRES: both buttonName and key must at least one character long
@@ -179,20 +180,14 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         String name = nameField.getText();
         String password = passwordField.getText();
 
-        if (name.equals("") || password.equals("")) {
-            messageLabel1.setText("Please enter your username and/or password");
-            messageLabel1.setForeground(Color.RED);
-            responsePanel1.add(messageLabel1);
-        } else {
-            if (e.getActionCommand().equals("create")) {
-                createAccount(name, password);
-            } else if (e.getActionCommand().equals("login")) {
-                loginToAccount(name, password);
-            } else if (e.getActionCommand().equals("save")) {
-                saveBank();
-            } else if (e.getActionCommand().equals("load")) {
-                loadBank();
-            }
+        if (e.getActionCommand().equals("create")) {
+            createAccount(name, password);
+        } else if (e.getActionCommand().equals("login")) {
+            loginToAccount(name, password);
+        } else if (e.getActionCommand().equals("save")) {
+            saveBank();
+        } else if (e.getActionCommand().equals("load")) {
+            loadBank();
         }
     }
 
@@ -213,34 +208,54 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     public void createAccount(String name, String pass) {
         int size = pass.length();
 
-        if (size != 4) {
-            messageLabel1.setText("Invalid password. Password must be 4 digits long. Please try again.");
-            messageLabel1.setForeground(Color.RED);
-            responsePanel1.add(messageLabel1);
-        } else {
-            Account account = new Account(name, pass);
-            list.addAccount(account);
+        try {
+            if (name.equals("") || pass.equals("")) {
+                responseMessageCreator(messageLabel1, "Please enter your username and/or password",
+                        Color.RED, responsePanel1);
+            } else if (size != 4) {
+                responseMessageCreator(messageLabel1, "Invalid password. Password must be 4 digits long. "
+                        + "Please try again.", Color.RED, responsePanel1);
+            } else {
+                Integer.parseInt(pass);
 
-            messageLabel1.setText("You are all set! Click login to perform transaction!");
-            messageLabel1.setForeground(Color.BLACK);
-            responsePanel1.add(messageLabel1);
+                Account account = new Account(name, pass);
+                list.addAccount(account);
+
+                responseMessageCreator(messageLabel1, "You are all set! Click login to perform transaction!",
+                        Color.BLACK, responsePanel1);
+            }
+        } catch (NumberFormatException e) {
+            responseMessageCreator(messageLabel1, "Invalid password. Password must be 4 digits long. "
+                    + "Please try again.", Color.RED, responsePanel1);
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: insert response message for successful user command, and error message for erroneous user command
+    private void responseMessageCreator(JLabel message, String text, Color color, JPanel panel) {
+        message.setText(text);
+        message.setForeground(color);
+        panel.add(message);
     }
 
     // MODIFIES: this
     // EFFECTS: login to the existing account
     public void loginToAccount(String name, String pass) {
-        messageLabel1.setText("Let's see what we can do...");
-        messageLabel1.setForeground(Color.BLACK);
-        responsePanel1.add(messageLabel1);
+        responseMessageCreator(messageLabel1, "Let's see what we can do...", Color.BLACK, responsePanel1);
 
         Account account = list.getAccount(name, pass);
-        if (account == null) {
+
+        if (name.equals("") || pass.equals("")) {
+            responseMessageCreator(messageLabel1, "Please enter your username and/or password",
+                    Color.RED, responsePanel1);
+        } else if (account == null) {
             noAccountHandler();
         } else {
             this.dispose();
             AccountPerformanceGUI apGUI = new AccountPerformanceGUI(name, account, this);
             apGUI.setVisible(true);
+            nameField.setText("");
+            passwordField.setText("");
         }
     }
 
@@ -248,9 +263,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // EFFECTS: handle a situation where given username and/or password not found in the account list.
     //          ask to re-enter or go back to the main menu
     public void noAccountHandler() {
-        messageLabel1.setText("There is no account with the given username and/or password.");
-        messageLabel1.setForeground(Color.RED);
-        responsePanel1.add(messageLabel1);
+        responseMessageCreator(messageLabel1, "There is no account with the given username and/or password.",
+                Color.RED, responsePanel1);
     }
 
     // MODIFIES: this
@@ -260,13 +274,10 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             jsonWriter.open();
             jsonWriter.write(list);
             jsonWriter.close();
-            messageLabel2.setText("Saved account to " + JSON_STORE);
-            messageLabel2.setForeground(Color.BLACK);
-            responsePanel2.add(messageLabel2);
+            responseMessageCreator(messageLabel2, "Saved account to " + JSON_STORE, Color.BLACK, responsePanel2);
         } catch (FileNotFoundException e) {
-            messageLabel2.setText("Unable to write to file: " + JSON_STORE);
-            messageLabel2.setForeground(Color.BLACK);
-            responsePanel2.add(messageLabel2);
+            responseMessageCreator(messageLabel2, "Unable to write to file: " + JSON_STORE, Color.BLACK,
+                    responsePanel2);
         }
     }
 
@@ -275,13 +286,11 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     private void loadBank() {
         try {
             list = jsonReader.read();
-            messageLabel2.setText("Loaded account from " + JSON_STORE);
-            messageLabel2.setForeground(Color.BLACK);
-            responsePanel2.add(messageLabel2);
+            responseMessageCreator(messageLabel2, "Loaded account from " + JSON_STORE, Color.BLACK,
+                    responsePanel2);
         } catch (IOException e) {
-            messageLabel2.setText("Unable to read from file: " + JSON_STORE);
-            messageLabel2.setForeground(Color.RED);
-            responsePanel2.add(messageLabel2);
+            responseMessageCreator(messageLabel2, "Unable to read from file: " + JSON_STORE, Color.RED,
+                    responsePanel2);
         }
     }
 }

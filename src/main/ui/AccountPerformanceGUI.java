@@ -178,7 +178,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         return messagePanel;
     }
 
-    // EFFECTS: initialise buttons
+    // EFFECTS: initialize buttons
     private JButton setUpButtons(String buttonName, String key) {
         JButton button = new JButton(buttonName);
         button.setActionCommand(key);
@@ -272,9 +272,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         String selectedOption = (String) comboBoxDeposit.getSelectedItem();
         switch (Objects.requireNonNull(selectedOption)) {
             case "Select the account":
-                depositMessageLabel.setText("Please select the account");
-                depositMessageLabel.setForeground(Color.RED);
-                depositMessage.add(depositMessageLabel);
+                responseMessageCreator(depositMessageLabel, "Please select the account",
+                        Color.RED, depositMessage);
                 break;
             case "Chequing account":
                 depositMoney("c");
@@ -290,28 +289,45 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     //          or ask to re-enter the amount if it is invalid (amount < 0)
     public void depositMoney(String accountType) {
         if (depositField.getText().equals("")) {
-            depositMessageLabel.setText("Please enter the amount");
-            depositMessageLabel.setForeground(Color.RED);
-            depositMessage.add(depositMessageLabel);
+            responseMessageCreator(depositMessageLabel, "Please enter the amount",
+                    Color.RED, depositMessage);
         } else {
-            double depositAmount = Integer.parseInt(depositField.getText());
-            if (depositAmount <= 0) {
-                depositMessageLabel.setText("Invalid amount. Please try again");
-                depositMessageLabel.setForeground(Color.RED);
-                depositMessage.add(depositMessageLabel);
-            } else {
-                account.deposit(accountType, depositAmount);
-                if (accountType.equals("c")) {
-                    depositMessageLabel.setText("$" + depositAmount
-                            + " deposited into your chequing account successfully!");
+            try {
+                double depositAmount = Integer.parseInt(depositField.getText());
+                if (depositAmount <= 0) {
+                    responseMessageCreator(depositMessageLabel, "Invalid amount. "
+                            + "Please try again", Color.RED, depositMessage);
                 } else {
-                    depositMessageLabel.setText("$" + depositAmount
-                            + " deposited into your saving account successfully!");
+                    account.deposit(accountType, depositAmount);
+                    depositMoneyIntoAccount(accountType, depositAmount);
                 }
-                depositMessageLabel.setForeground(Color.BLACK);
-                depositMessage.add(depositMessageLabel);
+            } catch (NumberFormatException e) {
+                responseMessageCreator(depositMessageLabel, "Invalid amount. Please try again",
+                        Color.RED, depositMessage);
             }
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: perform a deposit transaction based on the given account type
+    private void depositMoneyIntoAccount(String accountType, double depositAmount) {
+        if (accountType.equals("c")) {
+            depositMessageLabel.setText("$" + depositAmount
+                    + " deposited into your chequing account successfully!");
+        } else {
+            depositMessageLabel.setText("$" + depositAmount
+                    + " deposited into your saving account successfully!");
+        }
+        depositMessageLabel.setForeground(Color.BLACK);
+        depositMessage.add(depositMessageLabel);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: insert response message for successful user command, and error message for erroneous user command
+    private void responseMessageCreator(JLabel label, String text, Color color, JPanel message) {
+        label.setText(text);
+        label.setForeground(color);
+        message.add(label);
     }
 
     // MODIFIES: this
@@ -319,26 +335,26 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     //          or ask the user to re-enter the amount if amount < 0 or amount > account.getChequingBalance()
     public void withdrawMoney() {
         if (withdrawField.getText().equals("")) {
-            withdrawMessageLabel.setText("Please enter the amount");
-            withdrawMessageLabel.setForeground(Color.RED);
-            withdrawMessage.add(withdrawMessageLabel);
+            responseMessageCreator(withdrawMessageLabel, "Please enter the amount", Color.RED,
+                    withdrawMessage);
         } else {
-            double withdrawAmount = Integer.parseInt(withdrawField.getText());
-            if (withdrawAmount > account.getChequingBalance()) {
-                withdrawMessageLabel.setText("Insufficient balance in your chequing account. Please try again");
-                withdrawMessageLabel.setForeground(Color.RED);
-                withdrawMessage.add(withdrawMessageLabel);
-            } else if (withdrawAmount <= 0) {
-                withdrawMessageLabel.setText("Invalid amount. Please try again");
-                withdrawMessageLabel.setForeground(Color.RED);
-                withdrawMessage.add(withdrawMessageLabel);
-            } else {
-                account.withdraw("c", withdrawAmount);
-                double balance = account.getChequingBalance();
-                withdrawMessageLabel.setText("The transaction was successful! Balance in your chequing account: $"
-                        + balance);
-                withdrawMessageLabel.setForeground(Color.BLACK);
-                withdrawMessage.add(withdrawMessageLabel);
+            try {
+                double withdrawAmount = Integer.parseInt(withdrawField.getText());
+                if (withdrawAmount > account.getChequingBalance()) {
+                    responseMessageCreator(withdrawMessageLabel, "Insufficient balance in your "
+                            + "chequing account. Please try again", Color.RED, withdrawMessage);
+                } else if (withdrawAmount <= 0) {
+                    responseMessageCreator(withdrawMessageLabel, "Invalid amount. "
+                            + "Please try again", Color.RED, withdrawMessage);
+                } else {
+                    account.withdraw("c", withdrawAmount);
+                    double balance = account.getChequingBalance();
+                    responseMessageCreator(withdrawMessageLabel, "Successful! Balance in your "
+                            + "chequing account: $" + balance, Color.BLACK, withdrawMessage);
+                }
+            } catch (NumberFormatException e) {
+                responseMessageCreator(withdrawMessageLabel, "Invalid amount. Please try again",
+                        Color.RED, withdrawMessage);
             }
         }
     }
@@ -347,20 +363,17 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // EFFECTS: display the balance in the chequing account
     public void displayChequingBalance() {
         double balance = account.getChequingBalance();
-        balanceMessageLabel.setText("Balance in your chequing account: $" + balance);
-        balanceMessageLabel.setForeground(Color.BLACK);
-        balanceMessage.add(balanceMessageLabel);
+        responseMessageCreator(balanceMessageLabel, "Balance in your chequing account: $"
+                + balance, Color.BLACK, balanceMessage);
     }
 
     // MODIFIES: this
     // EFFECTS: display the balance in the saving account
     public void displaySavingBalance() {
         double balance = account.getSavingBalance();
-        balanceMessageLabel.setText("Balance in your saving account: $" + balance);
-        balanceMessageLabel.setForeground(Color.BLACK);
-        balanceMessage.add(balanceMessageLabel);
+        responseMessageCreator(balanceMessageLabel, "Balance in your saving account: $"
+                + balance, Color.BLACK, balanceMessage);
     }
-
 
     // MODIFIES: this
     // EFFECTS: display the transaction history based on the selected account from the dropdown box
@@ -368,9 +381,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         String selectedOption = (String) comboBoxHistory.getSelectedItem();
         switch (Objects.requireNonNull(selectedOption)) {
             case "Select an option":
-                transactionHistoryLabel.setText("Please select an option");
-                transactionHistoryLabel.setForeground(Color.RED);
-                transactionHistoryMessage.add(transactionHistoryLabel);
+                responseMessageCreator(transactionHistoryLabel, "Please select an option",
+                        Color.RED, transactionHistoryMessage);
                 break;
             case "Show all transactions":
                 displayTransactionHistory("all");

@@ -5,7 +5,7 @@
         "chequingBalance": 1000,
         "transactionHistory": [{
             "transactionType": "Deposit",
-            "date": "Fri Mar 31 16:38:40 PDT 2023",
+            "date": "Sat Apr 01 19:31:05 PDT 2023",
             "accountType": "Chequing",
             "transactionAmount": 1000,
             "username": "Ryo"
@@ -18,7 +18,7 @@
         "chequingBalance": 0,
         "transactionHistory": [{
             "transactionType": "Deposit",
-            "date": "Fri Mar 31 16:38:40 PDT 2023",
+            "date": "Sat Apr 01 19:31:05 PDT 2023",
             "accountType": "Saving",
             "transactionAmount": 222,
             "username": "Justin"
