@@ -98,3 +98,13 @@ Transaction history is filtered to display the history of chequing account only
 
 Wed Apr 05 19:45:12 PDT 2023\
 Transaction history is filtered to display the history of saving account only
+
+#### *Phase 4: Task 3*:
+
+In the MainMenuGUI and AccountMenuGUI classes, there are several methods that could be refactored.
+For instance, the createAccount method could be moved out of the MainMenuGUI class, as it doesn't necessarily align 
+with its responsibility. Similarly, the depositMoney method may be better suited in a different class than the 
+AccountMenuGUI. I would move these methods into new classes that better align with their respective responsibilities
+
+
+
