@@ -94,7 +94,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: render the image on the top of the main menu frame
     private void createTopBord() {
-        JPanel panel = new TopBordPanel();
+        JPanel panel = new TopBordPanelGUI("main");
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         panel.setPreferredSize(new Dimension(WINDOW_WIDTH, 200));
         panel.setBounds(10, 10, WINDOW_WIDTH, 300);
@@ -277,7 +277,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             noAccountHandler();
         } else {
             this.dispose();
-            AccountPerformanceGUI apGUI = new AccountPerformanceGUI(name, account, this);
+            AccountMenuGUI apGUI = new AccountMenuGUI(name, account, this);
             apGUI.setVisible(true);
             nameField.setText("");
             passwordField.setText("");

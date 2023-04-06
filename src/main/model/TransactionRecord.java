@@ -20,7 +20,7 @@ public class TransactionRecord {
         this.transactionType = transactionType;
         this.date = date;
         this.transactionAmount = transactionAmount;
-        EventLog.getInstance().logEvent(new Event("Transaction history created"));
+        EventLog.getInstance().logEvent(new Event("A transaction record created"));
     }
 
     public String getUsername() {

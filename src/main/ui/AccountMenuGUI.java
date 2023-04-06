@@ -1,6 +1,7 @@
 package ui;
 
 import model.Account;
+import model.TransactionHistoryFilter;
 import model.TransactionRecord;
 
 import javax.swing.*;
@@ -8,12 +9,11 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 // Represents the online banking system's account menu window frame
-public class AccountPerformanceGUI extends JFrame implements ActionListener {
+public class AccountMenuGUI extends JFrame implements ActionListener {
 
     private static JTextField depositField;
     private static JTextField withdrawField;
@@ -37,7 +37,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: Constructor sets up all the fields, buttons and instructions for the account menu
-    public AccountPerformanceGUI(String name, Account account, JFrame previousFrame) {
+    public AccountMenuGUI(String name, Account account, JFrame previousFrame) {
 
         super("Account Menu");
 
@@ -45,8 +45,9 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         this.previousFrame = previousFrame;
         this.name = name;
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(WINDOW_WIDTH, 700));
+        setUndecorated(true);
+        getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+        setPreferredSize(new Dimension(WINDOW_WIDTH, 840));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new FlowLayout());
 
@@ -62,6 +63,8 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         JButton vsBtn = setUpButtons("Saving account", "vs");
         JButton vtBtn = setUpButtons("View transaction history", "vt");
         JButton backButton = setUpButtons("Back to the main menu", "bb");
+
+        createTopBord();
 
         createPanels(depositBtn, withdrawBtn, vcBtn, vsBtn, vtBtn, backButton);
 
@@ -79,6 +82,16 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         add(greeting);
 
         addPanels(depositBtn, withdrawBtn, vcBtn, vsBtn, vtBtn, backButton);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: render the image on the top of the main menu frame
+    private void createTopBord() {
+        JPanel panel = new TopBordPanelGUI("account");
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        panel.setPreferredSize(new Dimension(WINDOW_WIDTH, 150));
+        panel.setBounds(10, 10, WINDOW_WIDTH, 300);
+        add(panel);
     }
 
     // MODIFIES: this
@@ -110,7 +123,7 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
         transactionHistoryMessage = addMessagePanels(transactionHistoryLabel);
 
         JPanel backButtonPanel = initJPanel(60);
-        backButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 30));
+        backButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 30));
         backButtonPanel.add(backButton);
         add(backButtonPanel);
     }
@@ -378,6 +391,10 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: display the transaction history based on the selected account from the dropdown box
     private void accountSelectionForHistoryFromDropdownBox() {
+        List<TransactionRecord> records = account.getTransactionHistory();
+        List<TransactionRecord> accountRecords;
+        TransactionHistoryFilter history = new TransactionHistoryFilter();
+
         String selectedOption = (String) comboBoxHistory.getSelectedItem();
         switch (Objects.requireNonNull(selectedOption)) {
             case "Select an option":
@@ -385,13 +402,16 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
                         Color.RED, transactionHistoryMessage);
                 break;
             case "Show all transactions":
-                displayTransactionHistory("all");
+                accountRecords = history.historyFilter(records, "all");
+                displayAllTransactionHistory(accountRecords);
                 break;
             case "Show chequing transactions":
-                displayTransactionHistory("Chequing");
+                accountRecords = history.historyFilter(records, "Chequing");
+                displaySpecificAccountTransactionHistory(accountRecords, "Chequing");
                 break;
             case "Show saving transactions":
-                displayTransactionHistory("Saving");
+                accountRecords = history.historyFilter(records, "Saving");
+                displaySpecificAccountTransactionHistory(accountRecords, "Saving");
                 break;
         }
     }
@@ -414,22 +434,22 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: display the transaction history based on the selected account type
-    private void displayTransactionHistory(String accountType) {
-        List<TransactionRecord> records = account.getTransactionHistory();
-        if (accountType.equals("all")) {
-            displayAllTransactionHistory(records);
-        } else if (accountType.equals("Chequing")) {
-            displaySpecificAccountTransactionHistory(records, accountType);
-        } else {
-            displaySpecificAccountTransactionHistory(records, accountType);
-        }
-    }
+//    // EFFECTS: display the transaction history based on the selected account type
+//    private void displayTransactionHistory(String accountType) {
+////        List<TransactionRecord> records = account.getTransactionHistory();
+//        if (accountType.equals("all")) {
+//            displayAllTransactionHistory(records);
+//        } else if (accountType.equals("Chequing")) {
+//            displaySpecificAccountTransactionHistory(records, accountType);
+//        } else {
+//            displaySpecificAccountTransactionHistory(records, accountType);
+//        }
+//    }
 
     // MODIFIES: this
     // EFFECTS: display the transaction history of the given account type; chequing or saving
     private void displaySpecificAccountTransactionHistory(List<TransactionRecord> records, String account) {
-        List<TransactionRecord> accountRecords = new ArrayList<>();
+//        List<TransactionRecord> accountRecords = new ArrayList<>();
         JFrame accountHistoryFrame = new JFrame("Transaction history of your "
                 + account.toLowerCase() + " account");
         accountHistoryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -438,18 +458,30 @@ public class AccountPerformanceGUI extends JFrame implements ActionListener {
                 13, 13, 13, 13));
         accountHistoryFrame.setLayout(new FlowLayout());
 
-        for (TransactionRecord tr : records) {
-            if (tr.getAccountType().equals(account)) {
-                accountRecords.add(tr);
-            }
-        }
+//        for (TransactionRecord tr : records) {
+//            if (tr.getAccountType().equals(account)) {
+//                accountRecords.add(tr);
+//            }
+//        }
 
-        if (checkIsNotEmptyRecords(accountRecords, account)) {
+//        List<TransactionRecord> accountRecords;
+//        TransactionHistory history = new TransactionHistory();
+//        accountRecords = history.historyFilter(records, account);
+//
+//        if (checkIsNotEmptyRecords(accountRecords, account)) {
+//            transactionHistoryLabel.setForeground(Color.BLACK);
+//            transactionHistoryLabel.setText("Transaction history page will pop up...");
+//            transactionHistoryMessage.add(transactionHistoryLabel);
+//            renderTransactionHistory(accountRecords, accountHistoryFrame);
+//        }
+
+        if (checkIsNotEmptyRecords(records, account)) {
             transactionHistoryLabel.setForeground(Color.BLACK);
             transactionHistoryLabel.setText("Transaction history page will pop up...");
             transactionHistoryMessage.add(transactionHistoryLabel);
-            renderTransactionHistory(accountRecords, accountHistoryFrame);
+            renderTransactionHistory(records, accountHistoryFrame);
         }
+
     }
 
     // MODIFIES: this

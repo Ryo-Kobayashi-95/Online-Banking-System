@@ -92,8 +92,8 @@ public class Account implements Writable {
 
     // EFFECTS: log a transaction event
     private void logAddingTransactionEvent(String accountType, String transactionType, String dateStr, double amount) {
-        EventLog.getInstance().logEvent(new Event("Transaction history added to account with the "
-                + "following details\n"
+        EventLog.getInstance().logEvent(new Event("Transaction record added to the transaction history of "
+                + "the account with the following details\n"
                 + "- Transaction date: " + dateStr
                 + "\n- Username:         " + this.username
                 + "\n- Account type:     " + accountType

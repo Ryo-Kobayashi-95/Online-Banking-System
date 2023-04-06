@@ -47,3 +47,54 @@ transaction history.
 - You can locate my visual component by running the application. It appears on the splash screen.
 - You can save the state of my application by clicking the "Save" button in the main menu.
 - You can reload the state of my application by clicking the "Load" button in the main menu.
+
+#### *Phase 4: Task 2*:
+Wed Apr 05 19:44:39 PDT 2023\
+A new account created with the following details
+- Username: Ryo
+- Password: 1234
+
+Wed Apr 05 19:44:39 PDT 2023\
+New account added to the list of accounts
+
+Wed Apr 05 19:44:45 PDT 2023\
+A transaction record created
+
+Wed Apr 05 19:44:45 PDT 2023\
+Transaction record added to the transaction history of the account with the following details
+- Transaction date: Wed Apr 05 19:44:45 PDT 2023
+- Username:         Ryo
+- Account type:     Chequing
+- Transaction type: Deposit
+- Amount:           $1000.0
+
+Wed Apr 05 19:44:55 PDT 2023\
+A transaction record created
+
+Wed Apr 05 19:44:55 PDT 2023\
+Transaction record added to the transaction history of the account with the following details
+- Transaction date: Wed Apr 05 19:44:55 PDT 2023
+- Username:         Ryo
+- Account type:     Saving
+- Transaction type: Deposit
+- Amount:           $1500.0
+
+Wed Apr 05 19:44:58 PDT 2023\
+A transaction record created
+
+Wed Apr 05 19:44:58 PDT 2023\
+Transaction record added to the transaction history of the account with the following details
+- Transaction date: Wed Apr 05 19:44:58 PDT 2023
+- Username:         Ryo
+- Account type:     Chequing
+- Transaction type: Withdraw
+- Amount:           $-500.0
+
+Wed Apr 05 19:45:03 PDT 2023\
+Transaction history is filtered to display the history of both accounts
+
+Wed Apr 05 19:45:08 PDT 2023\
+Transaction history is filtered to display the history of chequing account only
+
+Wed Apr 05 19:45:12 PDT 2023\
+Transaction history is filtered to display the history of saving account only
