@@ -1,8 +1,7 @@
+
+# Online Banking Management System
+
 Ryo Kobayashi
-
-Student ID: 60536133
-
-## Online Banking Management System
 
 #### *About the system*
 This online banking management system allows users to perform
@@ -34,7 +33,7 @@ understanding of the banking system.
 and transaction history associated with each account to file
 - As a user, I want to be able to load the list of accounts and transaction history from file
 
-#### *Instructions for Grader*:
+#### *Instructions*:
 - You can generate the first required action related to creating a new account by clicking the "Create" button in 
 the main menu. After logging into the account, you will be directed to the account menu, where you can perform 
 transactions with the "Deposit" and "Withdraw" buttons, and those transaction histories are added to the account. 
@@ -46,7 +45,7 @@ transaction history.
 - You can save the state of my application by clicking the "Save" button in the main menu.
 - You can reload the state of my application by clicking the "Load" button in the main menu.
 
-#### *Phase 4: Task 2*:
+#### *Event Logging*:
 Wed Apr 05 19:44:39 PDT 2023\
 A new account created with the following details
 - Username: Ryo
@@ -97,7 +96,7 @@ Transaction history is filtered to display the history of chequing account only
 Wed Apr 05 19:45:12 PDT 2023\
 Transaction history is filtered to display the history of saving account only
 
-#### *Phase 4: Task 3*:
+#### *Possible Improvement*:
 
 In the MainMenuGUI and AccountMenuGUI classes, there are several methods that could be refactored.
 For instance, the createAccount method could be moved out of the MainMenuGUI class, as it doesn't necessarily align 
