@@ -1,12 +1,11 @@
 
 # Online Banking Management System
 
-April 30, 2023
+Published: April 30, 2023
 
-Ryo Kobayashi
+Author: Ryo Kobayashi
 
-
-
+<br />
 
 #### *About the system*
 This online banking management system allows users to perform
