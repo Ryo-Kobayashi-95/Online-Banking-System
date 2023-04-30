@@ -1,5 +1,3 @@
-# Personal Project for CPSC 210
-
 Ryo Kobayashi
 
 Student ID: 60536133
