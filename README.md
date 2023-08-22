@@ -19,7 +19,7 @@ available depending on their status, and the users can set a savings goal
 within a specified time frame. The system calculates how much they need
 to save each month to reach that goal and provides a brief recommendation for the users.
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Alt Text]([https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif](https://media.giphy.com/media/YOxy5YZPr3zI8hWjDb/giphy.gif))
 
 
 #### *Who will use it?*
