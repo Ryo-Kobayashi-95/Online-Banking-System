@@ -19,8 +19,7 @@ available depending on their status, and the users can set a savings goal
 within a specified time frame. The system calculates how much they need
 to save each month to reach that goal and provides a brief recommendation for the users.
 
-![Alt Text]([https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif](https://media.giphy.com/media/YOxy5YZPr3zI8hWjDb/giphy.gif))
-
+<iframe src="https://giphy.com/embed/YOxy5YZPr3zI8hWjDb" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/YOxy5YZPr3zI8hWjDb">via GIPHY</a></p>
 
 #### *Who will use it?*
 Anyone can create an account and access the system remotely.
