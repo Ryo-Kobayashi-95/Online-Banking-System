@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,10 +23,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     private static JTextField nameField;
     private static JPasswordField passwordField;
     private static final JLabel messageLabel1 = new JLabel("Let's see what we can do...");
-    private static final JLabel messageLabel2 = new JLabel("Make sure to click 'Save' and/or 'Load'!");
     private static JPanel responsePanel1;
-    private static JPanel responsePanel2;
-
     private static final String JSON_STORE = "./data/bank.json";
     private Bank list;
     private final JsonWriter jsonWriter;
@@ -47,14 +45,12 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         runSystem();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(WINDOW_WIDTH, 620));
+        setPreferredSize(new Dimension(WINDOW_WIDTH, 450));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(0, 13, 13, 13));
         setLayout(new FlowLayout());
 
         JButton createBtn = createButtons("Create", "create");
         JButton loginBtn = createButtons("Login", "login");
-        JButton saveBtn = createButtons("Save", "save");
-        JButton loadBtn = createButtons("Load", "load");
 
         JPanel fixedMessagePanel1 = createFixedMessage("Please enter the username and password", 20);
 
@@ -62,14 +58,27 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
         add(fixedMessagePanel1);
         createFields();
-        createMainMenuButtons(createBtn, loginBtn, saveBtn, loadBtn);
+        createMainMenuButtons(createBtn, loginBtn);
 
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
 
+        saveData();
+
         printLogEvent();
+
+    }
+
+    // EFFECTS: save the transaction data
+    private void saveData() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                saveBank();
+            }
+        });
     }
 
     // EFFECTS: add window listener and print logged events
@@ -77,7 +86,11 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
+
                 printLog(EventLog.getInstance());
+
+                System.exit(0);
+
             }
         });
     }
@@ -134,12 +147,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: add buttons to the main menu
-    private void createMainMenuButtons(JButton createBtn, JButton loginBtn, JButton saveBtn, JButton loadBtn) {
-
-        JPanel fixedMessagePanel2 = createFixedMessage("Please click 'Save' to save the transaction, ",
-                13);
-        JPanel fixedMessagePanel3 = createFixedMessage("or click 'Load' to retrieve previous transaction",
-                20);
+    private void createMainMenuButtons(JButton createBtn, JButton loginBtn) {
 
         JPanel buttons1Panel = initJPanel(50);
         JPanel buttons2Panel = initJPanel(40);
@@ -147,17 +155,10 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         buttons1Panel.add(createBtn);
         buttons1Panel.add(loginBtn);
 
-        buttons2Panel.add(saveBtn);
-        buttons2Panel.add(loadBtn);
-
         responsePanel1 = createResponseMessagePanel(messageLabel1, 100);
-        responsePanel2 = createResponseMessagePanel(messageLabel2, PANEL_HEIGHT);
         add(buttons1Panel);
         add(responsePanel1);
-        add(fixedMessagePanel2);
-        add(fixedMessagePanel3);
         add(buttons2Panel);
-        add(responsePanel2);
     }
 
     // REQUIRES: both buttonName and key must at least one character long
@@ -209,23 +210,27 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             createAccount(name, password);
         } else if (e.getActionCommand().equals("login")) {
             loginToAccount(name, password);
-        } else if (e.getActionCommand().equals("save")) {
+        } else if (e.getActionCommand().equals("done")) {
             saveBank();
-        } else if (e.getActionCommand().equals("load")) {
-            loadBank();
+            this.dispose();
         }
     }
 
     // MODIFIES: this
     // EFFECTS: run the main menu
     public void runSystem() {
+        this.list = new Bank();
         init();
     }
 
     // MODIFIES: this
     // EFFECTS: initialize a new account list
     public void init() {
-        this.list = new Bank();
+        try {
+            this.list = jsonReader.read();
+        } catch (IOException e) {
+
+        }
     }
 
     // MODIFIES: this
@@ -299,23 +304,9 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             jsonWriter.open();
             jsonWriter.write(list);
             jsonWriter.close();
-            responseMessageCreator(messageLabel2, "Saved account to " + JSON_STORE, Color.BLACK, responsePanel2);
         } catch (FileNotFoundException e) {
-            responseMessageCreator(messageLabel2, "Unable to write to file: " + JSON_STORE, Color.BLACK,
-                    responsePanel2);
+            System.out.println("Unable read data");
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: loads workroom from file
-    private void loadBank() {
-        try {
-            list = jsonReader.read();
-            responseMessageCreator(messageLabel2, "Loaded account from " + JSON_STORE, Color.BLACK,
-                    responsePanel2);
-        } catch (IOException e) {
-            responseMessageCreator(messageLabel2, "Unable to read from file: " + JSON_STORE, Color.RED,
-                    responsePanel2);
-        }
-    }
 }

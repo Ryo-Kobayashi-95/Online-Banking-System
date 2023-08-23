@@ -434,19 +434,6 @@ public class AccountMenuGUI extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-//    // EFFECTS: display the transaction history based on the selected account type
-//    private void displayTransactionHistory(String accountType) {
-////        List<TransactionRecord> records = account.getTransactionHistory();
-//        if (accountType.equals("all")) {
-//            displayAllTransactionHistory(records);
-//        } else if (accountType.equals("Chequing")) {
-//            displaySpecificAccountTransactionHistory(records, accountType);
-//        } else {
-//            displaySpecificAccountTransactionHistory(records, accountType);
-//        }
-//    }
-
-    // MODIFIES: this
     // EFFECTS: display the transaction history of the given account type; chequing or saving
     private void displaySpecificAccountTransactionHistory(List<TransactionRecord> records, String account) {
 //        List<TransactionRecord> accountRecords = new ArrayList<>();
@@ -457,23 +444,6 @@ public class AccountMenuGUI extends JFrame implements ActionListener {
         ((JPanel) accountHistoryFrame.getContentPane()).setBorder(new EmptyBorder(
                 13, 13, 13, 13));
         accountHistoryFrame.setLayout(new FlowLayout());
-
-//        for (TransactionRecord tr : records) {
-//            if (tr.getAccountType().equals(account)) {
-//                accountRecords.add(tr);
-//            }
-//        }
-
-//        List<TransactionRecord> accountRecords;
-//        TransactionHistory history = new TransactionHistory();
-//        accountRecords = history.historyFilter(records, account);
-//
-//        if (checkIsNotEmptyRecords(accountRecords, account)) {
-//            transactionHistoryLabel.setForeground(Color.BLACK);
-//            transactionHistoryLabel.setText("Transaction history page will pop up...");
-//            transactionHistoryMessage.add(transactionHistoryLabel);
-//            renderTransactionHistory(accountRecords, accountHistoryFrame);
-//        }
 
         if (checkIsNotEmptyRecords(records, account)) {
             transactionHistoryLabel.setForeground(Color.BLACK);

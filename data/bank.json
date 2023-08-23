@@ -1,44 +1,44 @@
 {"accounts": [
     {
-        "password": "1234",
-        "savingBalance": 20000,
-        "chequingBalance": 9500,
+        "password": "0000",
+        "savingBalance": 0,
+        "chequingBalance": 1900,
         "transactionHistory": [
             {
                 "transactionType": "Deposit",
-                "date": "Wed Apr 05 18:27:16 PDT 2023",
+                "date": "Tue Aug 22 20:42:23 PDT 2023",
                 "accountType": "Chequing",
-                "transactionAmount": 10000,
-                "username": "Ryo"
-            },
-            {
-                "transactionType": "Deposit",
-                "date": "Wed Apr 05 18:27:27 PDT 2023",
-                "accountType": "Saving",
-                "transactionAmount": 20000,
+                "transactionAmount": 1000,
                 "username": "Ryo"
             },
             {
                 "transactionType": "Withdraw",
-                "date": "Wed Apr 05 18:27:33 PDT 2023",
+                "date": "Tue Aug 22 20:42:28 PDT 2023",
                 "accountType": "Chequing",
-                "transactionAmount": -500,
+                "transactionAmount": -100,
+                "username": "Ryo"
+            },
+            {
+                "transactionType": "Deposit",
+                "date": "Tue Aug 22 20:46:00 PDT 2023",
+                "accountType": "Chequing",
+                "transactionAmount": 1000,
                 "username": "Ryo"
             }
         ],
         "username": "Ryo"
     },
     {
-        "password": "0000",
-        "savingBalance": 10000,
+        "password": "1111",
+        "savingBalance": 1234,
         "chequingBalance": 0,
         "transactionHistory": [{
             "transactionType": "Deposit",
-            "date": "Wed Apr 05 18:30:22 PDT 2023",
+            "date": "Tue Aug 22 20:43:01 PDT 2023",
             "accountType": "Saving",
-            "transactionAmount": 10000,
-            "username": "James"
+            "transactionAmount": 1234,
+            "username": "Ken"
         }],
-        "username": "James"
+        "username": "Ken"
     }
 ]}
