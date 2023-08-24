@@ -1,114 +1,41 @@
-# This is a test for new repository
-
 # Online Banking Management System
 
-Published: April 30, 2023
+Published: Aug 23, 2023
 
 Author: Ryo Kobayashi
 
-<br />
+<br/>
 
-#### *About the system*
-This online banking management system allows users to perform
-various tasks related to their banking accounts and transactions
-without visiting the branches. Through the system, the users can
-create a checking and/or saving account and set a password to log in.
-After creating the account, users can deposit & withdraw money,
-view their balance, and transfer money between existing accounts.
-The saving account has several interest rates (simple or compound)
-available depending on their status, and the users can set a savings goal
-within a specified time frame. The system calculates how much they need
-to save each month to reach that goal and provides a brief recommendation for the users.
+## *Abstract*
+This online banking management system provides users with the convenience of conducting an extensive range of banking activities pertaining to their accounts and transactions, all within the confines of their digital realm. This platform empowers users to establish both checking and savings accounts, ensuring each account is fortified with a personalized password to ensure seamless and secure access. Subsequent to the successful establishment of their accounts, users are equipped to perform tasks such as fund deposits, withdrawals, and balance inquiries with utmost ease. Distinguished by meticulous attention to detail, the system maintains a robust architecture that adeptly manages and mitigates any potential instances of invalid or unauthorized activities.
 
-![Alt Text](https://media.giphy.com/media/YOxy5YZPr3zI8hWjDb/giphy.gif)
+## *Target Audience*
+The system is designed for universal accessibility, catering to a wide demographic of users who can effortlessly establish an account and engage with the platform from any remote location.
 
-#### *Who will use it?*
-Anyone can create an account and access the system remotely.
+## *Rationale for the Project*
+Motivated by my background as a finance student, I aspired to embark on a project with intrinsic ties to the financial domain. The endeavour of developing this banking system project affords me the opportunity to tangibly apply and leverage my academic insights. Moreover, by actively spearheading the creation of this system, I am primed to foster a heightened comprehension of the intricacies inherent within the realm of banking systems.
 
-#### *Why this project?*
-As a finance student, I wanted to work on a project that is related
-to finance, and this banking system project allows me to apply my knowledge.
-Also, by creating the system myself, I can cultivate a deeper
-understanding of the banking system.
+## *Users may engage in the following activities:*:
+- Establish an account, fortified by a concealed four-digit password
 
-#### *User Stories*:
-- As a user, I want to be able to create my account 
-- As a user, I want to be able to deposit money into my account
-- As a user, I want to be able to withdraw money from my account
-- As a user, I want to be able to record my transaction history on my account
-- As a user, I want to be able to save all accounts created (with username, password, and chequing & saving balance)
-and transaction history associated with each account to file
-- As a user, I want to be able to load the list of accounts and transaction history from file
+![Alt Text](https://media.giphy.com/media/SCqhvk3Hr5EUmHRNpH/giphy.gif)
+ 
+- Access an existing account through the login procedure
+- Deposit funds into either their checking or savings account
+- Withdraw funds exclusively from their checking account
+- Review the balances associated with both their checking and savings accounts
+- Delve into a comprehensive transaction history overview
 
-#### *Instructions*:
-- You can generate the first required action related to creating a new account by clicking the "Create" button in 
-the main menu. After logging into the account, you will be directed to the account menu, where you can perform 
-transactions with the "Deposit" and "Withdraw" buttons, and those transaction histories are added to the account. 
-- You can generate the second required action related to displaying transaction history with options for the user to 
-filter; show all history, deposit account history, or saving account history. You can select the 
-option from the dropdown box and click the "View transaction history" button to see all or selected account 
-transaction history.
-- You can locate my visual component by running the application. It appears on the splash screen.
-- You can save the state of my application by clicking the "Save" button in the main menu.
-- You can reload the state of my application by clicking the "Load" button in the main menu.
+![Alt Text](https://media.giphy.com/media/EuaZIPzOPtB6gmSpxV/giphy.gif)
 
-#### *Event Logging*:
-Wed Apr 05 19:44:39 PDT 2023\
-A new account created with the following details
-- Username: Ryo
-- Password: 1234
+## *Instructions*:
+- To initiate the primary action of creating a new account, simply access the "Create" button within the main menu with a username and password (must be in four digits) of your choice.
+- Once logged in by clicking the 'Login' button, you will seamlessly transition to the account menu, where transactions can be executed through the designated "Deposit" and "Withdraw" buttons. These transactions will be automatically recorded in the account's history.
+- To display transaction history, users are provided with filtering options. These include viewing the complete transaction history, as well as focusing specifically on deposit or saving account transactions. By making a selection from the dropdown menu and subsequently clicking the "View transaction history" button, users can conveniently access the desired account's transaction records.
 
-Wed Apr 05 19:44:39 PDT 2023\
-New account added to the list of accounts
+## *Developer Note*:
+- Account details and transaction history are stored in a JSON file.
+- Account information and transaction history can be updated or removed via the JSON file.
+- Each event or transaction is logged and presented in the IntelliJ console upon the application's closure.
 
-Wed Apr 05 19:44:45 PDT 2023\
-A transaction record created
-
-Wed Apr 05 19:44:45 PDT 2023\
-Transaction record added to the transaction history of the account with the following details
-- Transaction date: Wed Apr 05 19:44:45 PDT 2023
-- Username:         Ryo
-- Account type:     Chequing
-- Transaction type: Deposit
-- Amount:           $1000.0
-
-Wed Apr 05 19:44:55 PDT 2023\
-A transaction record created
-
-Wed Apr 05 19:44:55 PDT 2023\
-Transaction record added to the transaction history of the account with the following details
-- Transaction date: Wed Apr 05 19:44:55 PDT 2023
-- Username:         Ryo
-- Account type:     Saving
-- Transaction type: Deposit
-- Amount:           $1500.0
-
-Wed Apr 05 19:44:58 PDT 2023\
-A transaction record created
-
-Wed Apr 05 19:44:58 PDT 2023\
-Transaction record added to the transaction history of the account with the following details
-- Transaction date: Wed Apr 05 19:44:58 PDT 2023
-- Username:         Ryo
-- Account type:     Chequing
-- Transaction type: Withdraw
-- Amount:           $-500.0
-
-Wed Apr 05 19:45:03 PDT 2023\
-Transaction history is filtered to display the history of both accounts
-
-Wed Apr 05 19:45:08 PDT 2023\
-Transaction history is filtered to display the history of chequing account only
-
-Wed Apr 05 19:45:12 PDT 2023\
-Transaction history is filtered to display the history of saving account only
-
-#### *Possible Improvement*:
-
-In the MainMenuGUI and AccountMenuGUI classes, there are several methods that could be refactored.
-For instance, the createAccount method could be moved out of the MainMenuGUI class, as it doesn't necessarily align 
-with its responsibility. Similarly, the depositMoney method may be better suited in a different class than the 
-AccountMenuGUI. I would move these methods into new classes that better align with their respective responsibilities
-
-
-
+![Alt Text](https://media.giphy.com/media/bMpHZ9oBpqphLOALXz/giphy.gif)
