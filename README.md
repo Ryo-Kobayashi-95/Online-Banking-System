@@ -15,7 +15,7 @@ The system is designed for universal accessibility, catering to a wide demograph
 ## *Rationale for the Project*
 Motivated by my background as a finance student, I aspired to embark on a project with intrinsic ties to the financial domain. The endeavour of developing this banking system project affords me the opportunity to tangibly apply and leverage my academic insights. Moreover, by actively spearheading the creation of this system, I am primed to foster a heightened comprehension of the intricacies inherent within the realm of banking systems.
 
-## *Users may engage in the following activities:*:
+## *Users may engage in the following activities*:
 - Establish an account, fortified by a concealed four-digit password
 
 ![Alt Text](https://media.giphy.com/media/SCqhvk3Hr5EUmHRNpH/giphy.gif)
