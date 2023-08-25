@@ -1,44 +1,29 @@
-{"accounts": [
-    {
-        "password": "0000",
-        "savingBalance": 0,
-        "chequingBalance": 1900,
-        "transactionHistory": [
-            {
-                "transactionType": "Deposit",
-                "date": "Tue Aug 22 20:42:23 PDT 2023",
-                "accountType": "Chequing",
-                "transactionAmount": 1000,
-                "username": "Ryo"
-            },
-            {
-                "transactionType": "Withdraw",
-                "date": "Tue Aug 22 20:42:28 PDT 2023",
-                "accountType": "Chequing",
-                "transactionAmount": -100,
-                "username": "Ryo"
-            },
-            {
-                "transactionType": "Deposit",
-                "date": "Tue Aug 22 20:46:00 PDT 2023",
-                "accountType": "Chequing",
-                "transactionAmount": 1000,
-                "username": "Ryo"
-            }
-        ],
-        "username": "Ryo"
-    },
-    {
-        "password": "1111",
-        "savingBalance": 1234,
-        "chequingBalance": 0,
-        "transactionHistory": [{
+{"accounts": [{
+    "password": "1111",
+    "savingBalance": 500,
+    "chequingBalance": 8766,
+    "transactionHistory": [
+        {
             "transactionType": "Deposit",
-            "date": "Tue Aug 22 20:43:01 PDT 2023",
+            "date": "Thu Aug 24 16:43:46 PDT 2023",
+            "accountType": "Chequing",
+            "transactionAmount": 10000,
+            "username": "Mike"
+        },
+        {
+            "transactionType": "Deposit",
+            "date": "Thu Aug 24 16:43:52 PDT 2023",
             "accountType": "Saving",
-            "transactionAmount": 1234,
-            "username": "Ken"
-        }],
-        "username": "Ken"
-    }
-]}
+            "transactionAmount": 500,
+            "username": "Mike"
+        },
+        {
+            "transactionType": "Withdraw",
+            "date": "Thu Aug 24 16:43:56 PDT 2023",
+            "accountType": "Chequing",
+            "transactionAmount": -1234,
+            "username": "Mike"
+        }
+    ],
+    "username": "Mike"
+}]}
