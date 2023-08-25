@@ -26,7 +26,9 @@ Motivated by my background as a finance student, I aspired to embark on a projec
 - Review the balances associated with both their checking and savings accounts
 - Delve into a comprehensive transaction history overview
 
-![Alt Text](https://media.giphy.com/media/6J4EmE3A3MCaJbax7F/giphy.gif)
+
+![Alt Text](https://media.giphy.com/media/3giGDo5HtlecNa5arS/giphy.gif)
+
 
 ## *Instructions*:
 - To initiate the primary action of creating a new account, simply access the "Create" button within the main menu with a username and password (must be in four digits) of your choice.
