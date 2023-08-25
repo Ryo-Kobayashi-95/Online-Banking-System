@@ -12,7 +12,7 @@ This online banking management system provides users with the convenience of con
 ## *Target Audience*
 The system is designed for universal accessibility, catering to a wide demographic of users who can effortlessly establish an account and engage with the platform from any remote location.
 
-## *Project Motivation*
+## *Project Motivation (change made)*
 Motivated by my background as a finance student, I aspired to embark on a project with intrinsic ties to the financial domain. The endeavour of developing this banking system project affords me the opportunity to tangibly apply and leverage my academic insights. Moreover, by actively spearheading the creation of this system, I am primed to foster a heightened comprehension of the intricacies inherent within the realm of banking systems.
 
 ## *Users may engage in the following activities*:
