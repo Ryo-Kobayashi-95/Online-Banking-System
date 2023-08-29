@@ -14,6 +14,8 @@ This project employs:
 
 **To run the program:** *src → main → ui → Main.java*
 
+![Alt Text](https://media.giphy.com/media/eFDAUTDYWluxiZt5B3/giphy.gif)
+
 <br/>
 
 ## *Abstract*
