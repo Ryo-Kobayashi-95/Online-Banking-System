@@ -2,7 +2,17 @@
 
 Published: Aug 23, 2023
 
-Author: Ryo Kobayashi
+Developer: Ryo Kobayashi
+
+<br/>
+
+This project employs:
+- Language: Java
+- Platform: IntelliJ IDEA
+
+<br/>
+
+**To run the program:** *src → main → ui → Main.java*
 
 <br/>
 
