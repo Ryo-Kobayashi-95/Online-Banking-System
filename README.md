@@ -52,3 +52,6 @@ Motivated by my background as a finance student, I aspired to embark on a projec
 - Each event or transaction is logged and presented in the IntelliJ console upon the application's closure.
 
 ![Alt Text](https://media.giphy.com/media/bMpHZ9oBpqphLOALXz/giphy.gif)
+
+### **UML Diagram**
+![img.png](img.png)
